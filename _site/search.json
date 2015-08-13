@@ -3,7 +3,7 @@
   
     {
       "title"			: "Why Blog?",
-      "link"			: "/blog/why-blog/",
+      "link"			: "http://dswalter.github.io/blog/why-blog/",
       "excerpt"		: "<p>The most evident question for someone starting a blog in 2015 is: </p>
 
 "
@@ -31,7 +31,7 @@
   
     ,{
       "title"			: "Theme Setup",
-      "link"			: "/theme-setup/",
+      "link"			: "http://dswalter.github.io/theme-setup/",
       "excerpt"		: "Instructions on how to install and customize the Jekyll theme So Simple."
     }
   

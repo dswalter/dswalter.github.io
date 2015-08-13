@@ -5,7 +5,7 @@ locale: en_US
 description: machine learning, NLP, math, etc.
 #logo: site-logo.png
 search: true
-#url: http://dswalter.github.io
+url: http://dswalter.github.io
 
 # Jekyll configuration
 
@@ -48,7 +48,7 @@ owner:
   weibo: #userid
   google:
     plus: #username
-    analytics:
+    analytics:UA-66284351-1
     verify:
     ad-client:
     ad-slot:
