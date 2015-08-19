@@ -6,10 +6,7 @@ image:
 ---
 
 I'm Daniel. I teach computers by showing them examples. 
-<br>
-<br>
-I'm a data scientist at Are You a Human, which is terrifically fun. But this blog is more about machine learning as a field, language, coding, computer vision, and technology.
 
-This is mostly going to be about machine learning, because it's one of the things I love. We'll touch on language, coding, music, computer vision, and technology.
+I'm a data scientist at Are You a Human, which is terrifically fun. But this blog is mostly going to be about machine learning, because it's one of the things I love. We'll touch on language, coding, music, computer vision, and technology.
 
-I'm calling the blog "Subjective Functions" for now; machine learning people spend a lot of time working with objective functions, the functions we are trying optimize. One of the fun parts of machine learning is that these functions like $$\sum{(y-\hat{y})^2}$$, are influenced by our choice of models, parameters, and even what we are measuring. This means these objective functions, which seem absolute and impersonal, are actually reflections of our subjective ideas and beliefs. 
+I'm calling the blog "Subjective Functions"; machine learning people spend a lot of time working with objective functions, the functions we are trying optimize. One of the fun parts of machine learning is that these functions like $$\sum{(y-\hat{y})^2}$$, are influenced by our choice of models, parameters, and even what we are measuring. This means these objective functions, which seem absolute and impersonal, are actually reflections of our subjective ideas and beliefs. 
