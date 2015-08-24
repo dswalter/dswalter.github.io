@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/blog/why-blog/</loc>
+    <loc>http://dswalter.github.io/blog/why-blog/</loc>
     <lastmod>2015-08-12T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/tags/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
   <url>
-    <loc>/articles/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/articles/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
   <url>
-    <loc>/about/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/about/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
   <url>
-    <loc>/blog/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/blog/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
   <url>
-    <loc>/theme-setup/</loc>
-    <lastmod>2015-08-23T23:45:07-04:00</lastmod>
+    <loc>http://dswalter.github.io/theme-setup/</loc>
+    <lastmod>2015-08-23T23:46:29-04:00</lastmod>
   </url>
 </urlset>
