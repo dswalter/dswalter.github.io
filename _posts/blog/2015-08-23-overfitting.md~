@@ -1,0 +1,50 @@
+---
+layout: post
+title: Overfitting and the LSVRC
+modified: 2015-08-23
+categories: blog
+comments: true
+tags: 
+image:
+    feature:
+---
+
+
+Preview:
+At the end of May, the Large Scale Visual Recognition Competition (currently the word's top annual computer vision contest) announced that a team had violated the LSVRC's policies by over-submiting results. The [follow-up post](http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015), naming a team from Baidu as the perpetrators. This caused some extreme responses: [MIT Technology review](http://www.technologyreview.com/view/538111/why-and-how-baidu-cheated-an-artificial-intelligence-test/) called it "Machine learning's first cheating scandal." 
+
+The primary researcher for the paper, Dr. Ren Wu, (was fired from his position)[http://bits.blogs.nytimes.com/2015/06/11/baidu-fires-researcher-tied-to-contest-disqualification/] as "distinguished scientist at Baidu's Institute of Deep Learning (IDL)."
+
+It's not really posible to remove a paper from arxiv.org, so the team responsible did the next best thing: they replaced (this functional draft)[http://arxiv.org/abs/1501.02876v4.pdf] with (this nonexistent one)[http://arxiv.org/abs/1501.02876v5].  These events obviously mattered. But why would submitting answers too often to a contest be an offense worthy of termination for a promising academic with a (good)[https://scholar.google.com/citations?user=0VxDjbcAAAAJ&hl=en] publication record?
+
+Contests:
+The first thing we need to know about this is that machine learning as an academic discipline loves contests and datasets. For a very long time, the (MNIST)[http://yann.lecun.com/exdb/mnist/] dataset was the primary dataset used to evaluate computer vision algorithms, partially because Yann LeCun (currently at Facebook and NYU) used it in 1998 to evaluate everything he could get his hands on. The first convolutional neural network (the current state of the art in computer vision) was tested on MNIST in 1998
+
+In response, 
+
+But why does the community 
+
+ set the machine learning community ablaze: when there was a follow-up post.
+
+To the outside observer
+
+Link to the explanatory post:
+http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015
+
+
+The paper itself:
+http://arxiv.org/abs/1501.02876v5
+
+
+The current version of the paper, v5, is empty, the Arxiv equivalent of striing it from the record.
+The pdf from the day before this paper was singled out is 
+http://arxiv.org/pdf/1501.02876v4.pdf
+
+>“The key sentence here is, ‘Please note that you cannot make more than 2 submissions per week.’ It is our understanding that this is to say that one individual can at most upload twice per week. Otherwise, if the limit was set for a team, the proper text should be ‘your team’ instead,” Wu wrote. “Our team has submitted about 200 times total in its lifespan. Our paper have five authors, and so based [on] the rule above, we should be allowed to submit around 260 times. And so, our 200 submissions were well within the 260 limits set by the rule. We obtained the world’s best result on this benchmark, and I am confident we are the best. There are two occasions that we have submitted more than 10 times per week. A mistake in our part, and it was the reason I made a public apology, requested by my management. Of course, this was my biggest mistake. And things have been gone crazy since. [To] state that we are cheating is baseless. Noted that we have obtained the world’s best results on other five benchmarks as well.”
+
+The quote above is from:
+http://www.enterprisetech.com/2015/06/12/baidu-fires-deep-images-ren-wu/
+
+On
+
+The imagenet competition
