@@ -2,6 +2,16 @@
 
   
     {
+      "title"			: "Machine Learning is Magic",
+      "link"			: "http://dswalter.github.io/blog/machine-learning-is-magic/",
+      "excerpt"		: "<p>Perhaps you have heard of the the sophisticated, elegant <a href="https://github.com/panicsteve/cloud-to-butt">Cloud-to-Butt plugin</a>, which searches through the text on a website for the phrase “The Cloud” and replaces it with “My Butt”. <a href="http://gizmodo.com/the-best-of-cloud-to-butt-the-only-extension-youll-eve-1685863609">This compilation</a> shows some of the most urbane results.</p>
+
+"
+    }
+  
+
+  
+    ,{
       "title"			: "Talking Talking Machines",
       "link"			: "http://dswalter.github.io/blog/talking-talking-machines/",
       "excerpt"		: "<p><a href="http://www.thetalkingmachines.com/">Talking Machines</a> is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn’t really listen until this summer, which was my loss. Now that I’m catching up on it, I think it’s terrific. </p>
