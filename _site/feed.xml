@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://dswalter.github.io" />
-<updated>2015-11-29T09:22:28-05:00</updated>
+<updated>2015-12-02T22:13:28-05:00</updated>
 <id>http://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
@@ -12,8 +12,6 @@
   <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
 </author>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[Overfitting, Regularization, and Hyperparameters]]></title>
@@ -89,8 +87,6 @@
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[Machine Learning is Magic]]></title>
   <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/machine-learning-is-magic/" />
@@ -129,8 +125,6 @@
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[Talking Talking Machines]]></title>
   <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/talking-talking-machines/" />
@@ -144,7 +138,7 @@
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a href=&quot;http://www.thetalkingmachines.com/&quot;&gt;Talking Machines&lt;/a&gt; is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn’t really listen until this summer, which was my loss. Now that I’m catching up on it, I think it’s terrific. &lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://www.thetalkingmachines.com/&quot;&gt;Talking Machines&lt;/a&gt; is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn’t really listen until this summer, which was my loss. Now that I’m catching up on it, I think it’s terrific.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://static1.squarespace.com/static/54a56ccbe4b0ab38fed9fc81/t/54a56d1fe4b0c309d01404ce/1442025843814/?format=1500w&quot; alt=&quot;talking machines logo&quot; /&gt;&lt;/p&gt;
 
@@ -165,8 +159,6 @@
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[Why Blog?]]></title>
   <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/why-blog/" />
@@ -180,7 +172,7 @@
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;A question anyone starting a blog in 2015 should answer:  &lt;/p&gt;
+    &lt;p&gt;A question anyone starting a blog in 2015 should answer:&lt;/p&gt;
 
 &lt;h5 id=&quot;why&quot;&gt;Why?&lt;/h5&gt;
 
