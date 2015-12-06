@@ -2,27 +2,27 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Subjective functions</title>
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="http://dswalter.github.io/feed.xml" />
-<link rel="alternate" type="text/html" href="http://dswalter.github.io" />
-<updated>2015-12-02T22:13:28-05:00</updated>
-<id>http://dswalter.github.io/</id>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2015-12-05T23:41:20-05:00</updated>
+<id>/</id>
 <author>
   <name>Daniel Walter</name>
-  <uri>http://dswalter.github.io/</uri>
+  <uri>/</uri>
   <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
 </author>
 
 
 <entry>
   <title type="html"><![CDATA[Overfitting, Regularization, and Hyperparameters]]></title>
-  <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/" />
-  <id>http://dswalter.github.io/blog/overfitting-regularization-hyperparameters</id>
+  <link rel="alternate" type="text/html" href="/blog/overfitting-regularization-hyperparameters/" />
+  <id>/blog/overfitting-regularization-hyperparameters</id>
   <updated>2015-11-29T00:00:00-00:00</updated>
   <published>2015-11-29T00:00:00-05:00</published>
   
   <author>
     <name>Daniel Walter</name>
-    <uri>http://dswalter.github.io</uri>
+    <uri></uri>
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
@@ -82,21 +82,21 @@
 
 &lt;p&gt;Machine learning competitions that reward only the single highest-performing team provide a bit of a mixed bag, then. It’s typically impossible to win those competitions without a great algorithm and some hyperparameter optimization. But it becomes difficult to separate the gains that come from better algorithms and the gains that come from more judicious hyperparameter choices. I’ll get into this a bit more with my next post.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/&quot;&gt;Overfitting, Regularization, and Hyperparameters&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;http://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/blog/overfitting-regularization-hyperparameters/&quot;&gt;Overfitting, Regularization, and Hyperparameters&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;&quot;&gt;Subjective functions&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Machine Learning is Magic]]></title>
-  <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/machine-learning-is-magic/" />
-  <id>http://dswalter.github.io/blog/machine-learning-is-magic</id>
+  <link rel="alternate" type="text/html" href="/blog/machine-learning-is-magic/" />
+  <id>/blog/machine-learning-is-magic</id>
   <updated>2015-10-02T00:00:00-00:00</updated>
   <published>2015-10-02T00:00:00-04:00</published>
   
   <author>
     <name>Daniel Walter</name>
-    <uri>http://dswalter.github.io</uri>
+    <uri></uri>
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
@@ -120,21 +120,21 @@
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/dswalter/machine-learning-is-magic&quot;&gt;The code&lt;/a&gt; is a bit janky, so pull requests are welcome. And if you think I should make the simpler version that only replaces “machine learning algorithm” with “magic spells”, leave a comment. Enjoy!&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://dswalter.github.io/blog/machine-learning-is-magic/&quot;&gt;Machine Learning is Magic&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;http://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on October 02, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/blog/machine-learning-is-magic/&quot;&gt;Machine Learning is Magic&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;&quot;&gt;Subjective functions&lt;/a&gt; on October 02, 2015.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Talking Talking Machines]]></title>
-  <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/talking-talking-machines/" />
-  <id>http://dswalter.github.io/blog/talking-talking-machines</id>
+  <link rel="alternate" type="text/html" href="/blog/talking-talking-machines/" />
+  <id>/blog/talking-talking-machines</id>
   <updated>2015-09-17T00:00:00-00:00</updated>
   <published>2015-09-18T00:00:00-04:00</published>
   
   <author>
     <name>Daniel Walter</name>
-    <uri>http://dswalter.github.io</uri>
+    <uri></uri>
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
@@ -154,21 +154,21 @@
 
 &lt;p&gt;I do, so I’m backing the second season.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://dswalter.github.io/blog/talking-talking-machines/&quot;&gt;Talking Talking Machines&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;http://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/blog/talking-talking-machines/&quot;&gt;Talking Talking Machines&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;&quot;&gt;Subjective functions&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Why Blog?]]></title>
-  <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/why-blog/" />
-  <id>http://dswalter.github.io/blog/why-blog</id>
+  <link rel="alternate" type="text/html" href="/blog/why-blog/" />
+  <id>/blog/why-blog</id>
   <updated>2015-08-18T00:00:00-00:00</updated>
   <published>2015-08-12T00:00:00-04:00</published>
   
   <author>
     <name>Daniel Walter</name>
-    <uri>http://dswalter.github.io</uri>
+    <uri></uri>
     <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
   </author>
   <content type="html">
@@ -183,7 +183,7 @@
 &lt;p&gt;That’s a good idea, and I do, sometimes. But I don’t challenge myself nearly as well as other people do. Having a blog where I write out my opinions puts me in a place where other people can bring their perspectives to bear. And I have a few ideas I’d like to put out there.&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://dswalter.github.io/blog/why-blog/&quot;&gt;Why Blog?&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;http://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on August 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/blog/why-blog/&quot;&gt;Why Blog?&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;&quot;&gt;Subjective functions&lt;/a&gt; on August 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
