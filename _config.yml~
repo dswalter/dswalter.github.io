@@ -5,7 +5,7 @@ locale: en_US
 description: machine learning, NLP, math, etc.
 #logo: site-logo.png
 search: true
-url: http://dswalter.github.io
+#url: http://dswalter.github.io
 
 # Jekyll configuration
 
@@ -37,7 +37,7 @@ owner:
 #  avatar: bio-photo.jpg
   email: ds$mylastname@theemailserviceprovidedbygoogle.com
   disqus-shortname: danielwalter
-  twitter: #notthatdsw
+  twitter: notthatdsw
   facebook: #username
   github: #dswalter
   linkedin: #username

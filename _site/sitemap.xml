@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/blog/overfitting-regularization-hyperparameters/</loc>
+    <loc>http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/</loc>
     <lastmod>2015-11-29T00:00:00-05:00</lastmod>
   </url>
   <url>
-    <loc>/blog/machine-learning-is-magic/</loc>
+    <loc>http://dswalter.github.io/blog/machine-learning-is-magic/</loc>
     <lastmod>2015-10-02T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>/blog/talking-talking-machines/</loc>
+    <loc>http://dswalter.github.io/blog/talking-talking-machines/</loc>
     <lastmod>2015-09-18T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>/blog/why-blog/</loc>
+    <loc>http://dswalter.github.io/blog/why-blog/</loc>
     <lastmod>2015-08-12T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>/</loc>
+    <loc>http://dswalter.github.io/</loc>
   </url>
   <url>
-    <loc>/theme-setup/</loc>
+    <loc>http://dswalter.github.io/theme-setup/</loc>
   </url>
   <url>
-    <loc>/blog/</loc>
+    <loc>http://dswalter.github.io/blog/</loc>
   </url>
   <url>
-    <loc>/tags/</loc>
+    <loc>http://dswalter.github.io/tags/</loc>
   </url>
   <url>
-    <loc>/about/</loc>
+    <loc>http://dswalter.github.io/about/</loc>
   </url>
   <url>
-    <loc>/articles/</loc>
+    <loc>http://dswalter.github.io/articles/</loc>
   </url>
     <url>
-      <loc>/blog/why-blog/</loc>
+      <loc>http://dswalter.github.io/blog/why-blog/</loc>
     </url>
     <url>
-      <loc>/blog/talking-talking-machines/</loc>
+      <loc>http://dswalter.github.io/blog/talking-talking-machines/</loc>
     </url>
     <url>
-      <loc>/blog/machine-learning-is-magic/</loc>
+      <loc>http://dswalter.github.io/blog/machine-learning-is-magic/</loc>
     </url>
     <url>
-      <loc>/blog/overfitting-regularization-hyperparameters/</loc>
+      <loc>http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/</loc>
     </url>
 </urlset>
