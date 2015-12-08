@@ -4,13 +4,92 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://dswalter.github.io" />
-<updated>2015-12-05T23:58:13-05:00</updated>
+<updated>2015-12-08T01:22:35-05:00</updated>
 <id>http://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
   <uri>http://dswalter.github.io/</uri>
   <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[A Deeper Look into Machine Learning's First Cheating Scandal]]></title>
+  <link rel="alternate" type="text/html" href="http://dswalter.github.io/blog/machine-learnings-first-cheating-scandal/" />
+  <id>http://dswalter.github.io/blog/machine-learnings-first-cheating-scandal</id>
+  <updated>2015-12-08T00:00:00-00:00</updated>
+  <published>2015-12-08T00:00:00-05:00</published>
+  
+  <author>
+    <name>Daniel Walter</name>
+    <uri>http://dswalter.github.io</uri>
+    <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;At the end of May, the Large Scale Visual Recognition Competition, or &lt;a href=&quot;http://www.image-net.org/challenges/LSVRC/&quot;&gt;LSVRC&lt;/a&gt; (currently the word’s top annual computer vision contest) announced that a team had violated their policies by over-submitting results. The &lt;a href=&quot;http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015&quot;&gt;follow-up post&lt;/a&gt; named a team from Baidu as the perpetrators of this offense and explained that Baidu had been banned from submitting results to the LSVRC for a twelve-month period. &lt;a href=&quot;http://www.technologyreview.com/view/538111/why-and-how-baidu-cheated-an-artificial-intelligence-test/&quot;&gt;MIT Technology review&lt;/a&gt; called it &lt;strong&gt;“Machine learning’s first cheating scandal.”&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The search giant responded as though it had been caught. It’s not really possible to remove a paper from arXiv.org, so the offending team did the next best thing: they replaced &lt;a href=&quot;http://arxiv.org/abs/1501.02876v4.pdf&quot;&gt;this functional draft on arXiv&lt;/a&gt; with &lt;a href=&quot;http://arxiv.org/abs/1501.02876v5&quot;&gt;this nonexistent one&lt;/a&gt;. And the primary researcher for the paper, Dr. Ren Wu, &lt;a href=&quot;http://bits.blogs.nytimes.com/2015/06/11/baidu-fires-researcher-tied-to-contest-disqualification/&quot;&gt;was fired from his position&lt;/a&gt; as “distinguished scientist at Baidu’s Institute of Deep Learning.”&lt;/p&gt;
+
+&lt;p&gt;To the non-practitioner, it might seem a bit extreme. Why would submitting answers too often to a contest be an offense worthy of termination for a promising academic with a &lt;a href=&quot;https://scholar.google.com/citations?user=0VxDjbcAAAAJ&amp;amp;hl=en&quot;&gt;good publication record&lt;/a&gt;? And why should an entire corporation be banned from an international computer vision competition over such a seemingly small incident?&lt;/p&gt;
+
+&lt;p&gt;In order to address that question, we’re going to need to talk about some important concepts in machine learning. I talked about overfitting, regularization, and hyperparameter optimization in &lt;a href=&quot;http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/&quot;&gt;this previous post&lt;/a&gt;. Next, let’s talk about benchmarking.&lt;/p&gt;
+
+&lt;h3 id=&quot;benchmarking-and-breakthroughs&quot;&gt;Benchmarking and breakthroughs:&lt;/h3&gt;
+
+&lt;p&gt;Machine learning (ML) is a very performance focused discipline: academics in ML do a lot of theoretical work, but the algorithms themselves are generally compared based on their performance on tasks that have specified training and testing data. The core idea is that when different algorithms are tested on the same data, we can gain a more objective sense of their relative performance. There are some major advantages to this, namely the objectivity of well-designed experimentation. We will talk about some of the potential problems with this in a few paragraphs.&lt;/p&gt;
+
+&lt;p&gt;As an example of this benchmarking tendency, in 1998 Yann LeCun (now head of Facebook’s FAIR and one of most influential researchers in computer vision) used the &lt;a href=&quot;http://yann.lecun.com/exdb/mnist/&quot;&gt;MNIST dataset&lt;/a&gt; to evaluate most of the computer vision algorithms people were studying at the time. This is one of the reasons the MNIST dataset became one of the most popular datasets to evaluate machine learning algorithms on, and &lt;a href=&quot;https://scholar.google.com/citations?view_op=view_citation&amp;amp;hl=en&amp;amp;user=WLN3QrAAAAAJ&amp;amp;citation_for_view=WLN3QrAAAAAJ:u5HHmVD_uO8C&quot;&gt;the article has had over 4100 citations&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Various other benchmarking datasets have emerged through the years, such as &lt;a href=&quot;http://www.vision.caltech.edu/Image_Datasets/Caltech101/&quot;&gt;Caltech 101&lt;/a&gt;, &lt;a href=&quot;http://authors.library.caltech.edu/7694/&quot;&gt;Caltech 256&lt;/a&gt;, and the PASCAL VOC (Visual Object Classes), but the release of &lt;a href=&quot;http://www.image-net.org/papers/imagenet_cvpr09.pdf&quot;&gt;ImageNet&lt;/a&gt; by Fei Fei Li et al. was the great leap forward. There’s so much to say about ImageNet (almost all of it breathlessly positive), but it’s enough to say that ImageNet dwarfs previous computer vision datasets in both the number of classes and images per class.&lt;/p&gt;
+
+&lt;p&gt;Because of ImageNet’s scale, the LSVRC is a much more challenging competition than ones that came before it. With 1000 classes, the algorithms that succeed need to have high representation capacity, since they need to be able to discriminate between every class, which means \(n(n-1)/2=1000*(999)/2=499500\) decision boundaries between classes. In problems needing high representation capacity like this, more parameters are generally helpful. Informally, more parameters give an algorithm more room to hold what it has learned. Since multi-layer neural networks (shallow or deep) are universal function approximators that can accommodate billions of parameters if you want them to, it makes sense that neural networks of some kind (“deep learning”) would be an effective approach in computer vision.&lt;/p&gt;
+
+&lt;p&gt;One difficulty is that deep neural networks with billions of neurons can take a long time to train. This was helped by a significant breakthrough in 2012 by Alex Krizhevsky, a PhD student at the time at the University of Toronto. Krizhevsky famously used the parallel computational capabilities of graphics cards (GPU’s) on a computer in his dorm room to drastically reduce training time for his convolutional neural network models. This meant he was able to train much larger models (with more layers and parameters and therefore higher representation capacity) than other researchers at the time, because he was able to obtain results in days rather than weeks.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&quot;&gt;That paper&lt;/a&gt; had a 9% lower absolute error rate than the next best result on LSVRC 2012 (winning with an error rate of 15.3% compared to the second best’s 26.2%). It was rightly hailed as a major breakthrough, and GPU training has become the standard method for training deep neural nets. The authors of that paper (Krizhevsky, Sutskever, and Hinton) created a deep learning startup called DeepMind that has joined Google to become &lt;a href=&quot;http://deepmind.com/&quot;&gt;Google DeepMind&lt;/a&gt;. I mention this story because it’s a quintessential example of a major breakthrough in a field: a new technique or idea that is broadly applicable and improves the entire field.&lt;/p&gt;
+
+&lt;h3 id=&quot;this-scandal&quot;&gt;This Scandal&lt;/h3&gt;
+
+&lt;p&gt;The ImageNet LSVRC has a rule in place that a machine learning system can only be submitted for evaluation on the test set twice a week. Since every submission needs to be evaluated on the same test set, this rule functions as a regularization parameter; limited access to submission makes for limited exposure for the competition’s most guarded secret, the scoring test set.&lt;/p&gt;
+
+&lt;p&gt;This rule also restricts the amount of hyperparameter optimization, or in this case hyperparameter overfitting, that can be performed on the scoring test set. In machine learning, over time, the models tend toward better accuracy, because the best ideas tend to be absorbed into the best practices of the field (there are almost no papers focusing on 3 or 4-layer CNN’s these days, for example). And in the days of widespread publication of pre-prints on &lt;a href=&quot;arxiv.org&quot;&gt;the arXiv&lt;/a&gt;, those new ideas can spread through the community in a matter of days or weeks. Limiting submissions to twice per week means that hyperparameter optimization should only be able to have a limited effect relative to that overall trend toward forward progress.  I think this is the most important reason for the restriction, and this is why the Baidu scandal mattered so much.&lt;/p&gt;
+
+&lt;p&gt;The Baidu team’s oversubmissions tilted the balance of forward progress on the LSVRC from algorithmic advances to hyperparameter optimization.&lt;/p&gt;
+
+&lt;p&gt;Here is the response from Dr. Ren Wu after the initial scandal broke:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;http://www.enterprisetech.com/2015/06/12/baidu-fires-deep-images-ren-wu/&quot;&gt;“The key sentence here is, ‘Please note that you cannot make more than 2 submissions per week.’ It is our understanding that this is to say that one individual can at most upload twice per week. Otherwise, if the limit was set for a team, the proper text should be ‘your team’ instead,” Wu wrote. “Our team has submitted about 200 times total in its lifespan. Our paper have five authors, and so based [on] the rule above, we should be allowed to submit around 260 times. And so, our 200 submissions were well within the 260 limits set by the rule.”&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The “two submissions per person” argument is fairly weak: if true, it would incentivize gathering large groups of collaborators merely to get more frequent result submissions. That would be unfair to researchers at smaller universities or companies with fewer connections in the field. It would be patently unfair. A more problematic sticking point is that it appears no other team took this view of the submission policy. The graph below shows that the Baidu team submitted results more times than all other teams combined. (Members of the Baidu team had to create multiple logins in order to circumvent the “two submissions per week” rule)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.image-net.org/challenges/LSVRC/figs/submissions_server.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This might conceivably be acceptable if the team were trying out a variety of algorithms and hyperparameters and seeing what sticks. As an outsider, I don’t have access to those records, so I can’t make any conclusive observations. But the graph below shows their results over the period of time they were submitting, and it is quite informative.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.image-net.org/challenges/LSVRC/figs/overview.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There is an overall downward trend over that time, during which several other labs made major breakthroughs and received press coverage for achieving state-of-the-art results on the LSVRC. Many of the results for the Baidu team are scattered in performance, as though the team was trying many things to see what worked and some of those ways were less effective. That’s normal and probably healthy.&lt;/p&gt;
+
+&lt;p&gt;But if you look at the bottom right, there are three areas of more clustered submissions. I hypothesize that these are three periods of hyperparameter optimization. The cluster I’ve circled in red appears to have been relatively ineffective. But the two periods I’ve highlighted in blue were successful; the blue ellipse on the bottom right culminates in their ‘winning’ submission. In contrast to the ‘great leap forward’ established in the Krizhevsky et al. paper, the Baidu team’s results show that hyperparameter optimization can still extract a little bit of performance out of algorithms in costly competitions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/lsvrc-3.jpg&quot; alt=&quot;A slightly modified version&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This was intentional hyperparameter overfitting. Someone as experienced as Dr. Wu was would not have made such a mistake accidentally.  It was bad machine learning practice; this looks like a deliberate attempt to utilize an unfair competitive advantage.  When people think of “cheating” in a research context, they immediately think of fabricated results, but this violation also deserves that label.&lt;/p&gt;
+
+&lt;h3 id=&quot;repercussions&quot;&gt;Repercussions&lt;/h3&gt;
+&lt;p&gt;Setting aside the scandal, the fact that the Baidu team achieved ‘state-of-the-art’ results on the LSVRC by running hyperparameter optimization experiments likely means that the dataset is nearing the end of its run as &lt;em&gt;the&lt;/em&gt; benchmark in computer vision. For the first time since its inception, the major LSVRC classification challenge is not being held this year, and this scandal directly contributed to that. I imagine the ImageNet classification task will still live on as part of the battery of proving grounds an algorithm is evaluated on, much like how MNIST is still used today, but I look forward to seeing what the next gold-standard computer vision dataset will be. Perhaps something related to processing video?&lt;/p&gt;
+
+&lt;p&gt;And maybe we’re all a bit complicit in the problems raised here? The field uses best-case test results to show how well an algorithm works. But using the maximum score achieved by a particular algorithm is an inherently outlier-dependent measure. Is the absolute best performance achieved in one particular experiment really the best measure of the capabilities of an algorithm? It would be very valuable to find ways to mitigate this outlier dependency.&lt;/p&gt;
+
+&lt;p&gt;And, finally, to make sure we aren’t making lesser versions of the same mistake this Baidu team made, we should always use the train-validation-test framework (or even better, use crossvalidation for the train-validation splits). If you’re comparing two algorithms, only evaluate each model on the test set once. Do all your hyperparameter optimization on the train-validation set, leaving the scoring test set as un-learned-from as possible. Hyperparameter optimization on the scoring test set causes results ranging from somewhat suspect to actually fraudulent.&lt;/p&gt;
+
+&lt;p&gt;(Feel free to leave any thoughts or corrections in the comments)&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;http://dswalter.github.io/blog/machine-learnings-first-cheating-scandal/&quot;&gt;A Deeper Look into Machine Learning&#39;s First Cheating Scandal&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;http://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on December 08, 2015.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
