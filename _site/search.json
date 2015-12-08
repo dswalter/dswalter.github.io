@@ -2,7 +2,7 @@
 
   
     {
-      "title"			: "A Deeper Look into Machine Learning's First Cheating Scandal",
+      "title"			: "A Look into Machine Learning's First Cheating Scandal",
       "link"			: "http://dswalter.github.io/blog/machine-learnings-first-cheating-scandal/",
       "excerpt"		: "<p>At the end of May, the Large Scale Visual Recognition Competition, or <a href="http://www.image-net.org/challenges/LSVRC/">LSVRC</a> (currently the word’s top annual computer vision contest) announced that a team had violated their policies by over-submitting results. The <a href="http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015">follow-up post</a> named a team from Baidu as the perpetrators of this offense and explained that Baidu had been banned from submitting results to the LSVRC for a twelve-month period. <a href="http://www.technologyreview.com/view/538111/why-and-how-baidu-cheated-an-artificial-intelligence-test/">MIT Technology review</a> called it <strong>“Machine learning’s first cheating scandal.”</strong></p>
 

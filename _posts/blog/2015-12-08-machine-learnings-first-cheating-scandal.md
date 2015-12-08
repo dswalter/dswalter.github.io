@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Deeper Look into Machine Learning's First Cheating Scandal
+title: A Look into Machine Learning's First Cheating Scandal
 modified: 2015-12-08
 categories: blog
 comments: true
