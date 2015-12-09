@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://dswalter.github.io" />
-<updated>2015-12-08T11:19:20-05:00</updated>
+<updated>2015-12-09T11:04:42-05:00</updated>
 <id>http://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
@@ -46,7 +46,7 @@
 
 &lt;p&gt;One difficulty with deep learning is that deep neural networks with billions of neurons take a long time to train. This was helped by a significant breakthrough in 2012 by Alex Krizhevsky, a PhD student at the time at the University of Toronto. Krizhevsky famously used the parallel computational capabilities of graphics cards (GPU’s) on a computer in his dorm room to drastically reduce training time for his convolutional neural network models. This meant he was able to train much larger models (with more layers and parameters and therefore higher representation capacity) than other researchers at the time, because he was able to obtain results in days rather than weeks.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&quot;&gt;That paper&lt;/a&gt; had a 9% lower absolute error rate than the next best result on LSVRC 2012 (winning with an error rate of 15.3% compared to the second best’s 26.2%). It was rightly hailed as a major breakthrough, and GPU training has become the standard method for training deep neural nets. The authors of that paper (Krizhevsky, Sutskever, and Hinton) created a deep learning startup called DeepMind that has joined Google to become &lt;a href=&quot;http://deepmind.com/&quot;&gt;Google DeepMind&lt;/a&gt;. I mention this story because it’s a quintessential example of a major breakthrough in a field: a new technique or idea that is broadly applicable and improves the entire field.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&quot;&gt;That paper&lt;/a&gt; had a 9% lower absolute error rate than the next best result on LSVRC 2012 (winning with an error rate of 15.3% compared to the second best’s 26.2%). It was rightly hailed as a major breakthrough, and GPU training has become the standard method for training deep neural nets. I mention this story because it’s a quintessential example of a major breakthrough in a field: a new technique or idea that is broadly applicable and improves the entire field.&lt;/p&gt;
 
 &lt;h4 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h4&gt;
 
