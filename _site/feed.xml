@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://dswalter.github.io" />
-<updated>2015-12-09T13:32:03-05:00</updated>
+<updated>2015-12-10T08:44:18-05:00</updated>
 <id>http://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
@@ -40,7 +40,7 @@
 
 &lt;p&gt;As an example of this benchmarking tendency, in 1998 Yann LeCun (now head of Facebook’s FAIR and one of most influential researchers in computer vision) used the &lt;a href=&quot;http://yann.lecun.com/exdb/mnist/&quot;&gt;MNIST dataset&lt;/a&gt; to evaluate most of the computer vision algorithms people were studying at the time. Partially as a result of that effort, the MNIST dataset became one of the most popular datasets to evaluate machine learning algorithms on, and &lt;a href=&quot;https://scholar.google.com/citations?view_op=view_citation&amp;amp;hl=en&amp;amp;user=WLN3QrAAAAAJ&amp;amp;citation_for_view=WLN3QrAAAAAJ:u5HHmVD_uO8C&quot;&gt;that particular article has had over 4200 citations&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Various other computer vision datasets have emerged through the years, such as &lt;a href=&quot;http://www.vision.caltech.edu/Image_Datasets/Caltech101/&quot;&gt;Caltech 101&lt;/a&gt;, &lt;a href=&quot;http://authors.library.caltech.edu/7694/&quot;&gt;Caltech 256&lt;/a&gt;, and the PASCAL VOC (Visual Object Classes), but the release of &lt;a href=&quot;http://www.image-net.org/papers/imagenet_cvpr09.pdf&quot;&gt;ImageNet&lt;/a&gt; by Fei Fei Li et al. was the great leap forward. There’s so much to say about ImageNet (almost all of it breathlessly positive), but it’s enough to say that ImageNet dwarfs previous computer vision datasets in both the number of classes and images per class.&lt;/p&gt;
+&lt;p&gt;Various other computer vision datasets have emerged through the years, such as &lt;a href=&quot;http://www.vision.caltech.edu/Image_Datasets/Caltech101/&quot;&gt;Caltech 101&lt;/a&gt;, &lt;a href=&quot;http://authors.library.caltech.edu/7694/&quot;&gt;Caltech 256&lt;/a&gt;, and the PASCAL VOC (Visual Object Classes), but the release of &lt;a href=&quot;http://www.image-net.org/papers/imagenet_cvpr09.pdf&quot;&gt;ImageNet&lt;/a&gt; by Deng et al. was the great leap forward. There’s so much to say about ImageNet (almost all of it breathlessly positive), but it’s enough to say that ImageNet dwarfs previous computer vision datasets in both the number of classes and images per class.&lt;/p&gt;
 
 &lt;p&gt;Because of ImageNet’s scale, the LSVRC is a much more challenging competition than ones that came before it. With 1000 classes, the algorithms that succeed need to have high representation capacity, since they need to be able to discriminate between every class, which means there are \(n(n-1)/2=1000*(999)/2=499500\) decision boundaries between classes. In problems needing high representation capacity like this, more parameters are generally helpful; more parameters give an algorithm more room to hold what it has learned. Since multi-layer neural networks (shallow or deep) are universal function approximators that can accommodate billions of parameters based on how you structure them, it makes sense that neural networks of some kind (“deep learning”) would be an effective approach in computer vision.&lt;/p&gt;
 
