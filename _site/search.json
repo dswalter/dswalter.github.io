@@ -3,7 +3,7 @@
   
     {
       "title"			: "A Look into Machine Learning's First Cheating Scandal",
-      "link"			: "http://dswalter.github.io/blog/machine-learnings-first-cheating-scandal/",
+      "link"			: "https://dswalter.github.io/blog/machine-learnings-first-cheating-scandal/",
       "excerpt"		: "<p>At the end of May, the ImageNet Large Scale Visual Recognition Competition, or <a href="http://www.image-net.org/challenges/LSVRC/">LSVRC</a> (currently the word’s top annual computer vision contest) announced that a team had violated competition policies by over-submitting results. The <a href="http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015">follow-up post</a> named a team from Baidu (the Chinese search giant) as the perpetrators of this offense and explained that Baidu had been banned from submitting results to the LSVRC for a twelve-month period. <a href="http://www.technologyreview.com/view/538111/why-and-how-baidu-cheated-an-artificial-intelligence-test/">MIT Technology review</a> called it <strong>“Machine learning’s first cheating scandal.”</strong></p>
 
 "
@@ -13,7 +13,7 @@
   
     ,{
       "title"			: "Overfitting, Regularization, and Hyperparameters",
-      "link"			: "http://dswalter.github.io/blog/overfitting-regularization-hyperparameters/",
+      "link"			: "https://dswalter.github.io/blog/overfitting-regularization-hyperparameters/",
       "excerpt"		: "<p>(This lays the ground work for the next post, which was getting too long to be effective.)</p>
 
 "
@@ -23,7 +23,7 @@
   
     ,{
       "title"			: "Machine Learning is Magic",
-      "link"			: "http://dswalter.github.io/blog/machine-learning-is-magic/",
+      "link"			: "https://dswalter.github.io/blog/machine-learning-is-magic/",
       "excerpt"		: "<p>Perhaps you have heard of the the sophisticated, elegant <a href="https://github.com/panicsteve/cloud-to-butt">Cloud-to-Butt plugin</a>, which searches through the text on a website for the phrase “The Cloud” and replaces it with “My Butt”. <a href="http://gizmodo.com/the-best-of-cloud-to-butt-the-only-extension-youll-eve-1685863609">This compilation</a> shows some of the most urbane results.</p>
 
 "
@@ -33,7 +33,7 @@
   
     ,{
       "title"			: "Talking Talking Machines",
-      "link"			: "http://dswalter.github.io/blog/talking-talking-machines/",
+      "link"			: "https://dswalter.github.io/blog/talking-talking-machines/",
       "excerpt"		: "<p><a href="http://www.thetalkingmachines.com/">Talking Machines</a> is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn’t really listen until this summer, which was my loss. Now that I’m catching up on it, I think it’s terrific.</p>
 
 "
@@ -43,7 +43,7 @@
   
     ,{
       "title"			: "Why Blog?",
-      "link"			: "http://dswalter.github.io/blog/why-blog/",
+      "link"			: "https://dswalter.github.io/blog/why-blog/",
       "excerpt"		: "<p>A question anyone starting a blog in 2015 should answer:</p>
 
 "
@@ -61,7 +61,7 @@
   
     ,{
       "title"			: "Theme Setup",
-      "link"			: "http://dswalter.github.io/theme-setup/",
+      "link"			: "https://dswalter.github.io/theme-setup/",
       "excerpt"		: "Instructions on how to install and customize the Jekyll theme So Simple."
     }
   
