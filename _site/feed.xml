@@ -4,13 +4,108 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="https://dswalter.github.io" />
-<updated>2015-12-22T10:30:31-05:00</updated>
+<updated>2016-01-02T01:33:56-05:00</updated>
 <id>https://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
   <uri>https://dswalter.github.io/</uri>
   <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Best things of 2015]]></title>
+  <link rel="alternate" type="text/html" href="https://dswalter.github.io/blog/best-things-of-2015/" />
+  <id>https://dswalter.github.io/blog/best-things-of-2015</id>
+  <updated>2016-01-01T00:00:00-00:00</updated>
+  <published>2016-01-01T00:00:00-05:00</published>
+  
+  <author>
+    <name>Daniel Walter</name>
+    <uri>https://dswalter.github.io</uri>
+    <email>ds$mylastname@theemailserviceprovidedbygoogle.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Here are a few things I appreciated in 2015:&lt;/p&gt;
+
+&lt;h3 id=&quot;arxiv-papers&quot;&gt;arXiv papers:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1502.03167&quot;&gt;Batch Normalization&lt;/a&gt;- a simple conceptual idea beautifully executed. We’ve known for years that neural networks respond better to input data that follow certain distributions. Since the output of each layer is the input to the next, it’s a good idea to ensure that each layer is getting “well-behaved” data. The procedure quickly made it into deep learning standard practice. (I’m putting this article in 2015 since that’s when I first read it.)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1512.03385&quot;&gt;Deep Residual Networks&lt;/a&gt;- 2015 looks like the beginning of the “truly deep” deep learning era with this ImageNet-winning paper from Microsoft Research Asia that uses a convolutional neural network with 153(!) layers. (Highway networks are another good way to train very deep networks, but they didn’t have the same dramatic success). Most layers in the Deep Residual Network are relatively compact, which makes training more feasible, and an identity mapping is used to keep the signal strong through all the layers. The results are impressive.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1502.01710&quot;&gt;Text Understanding from Scratch&lt;/a&gt;:
+Using words as the building blocks of NLP for so long may partially be a result of much work being done in English (English is not a morphologically rich language, so a lot of our meaning is communicated using noun phrases and verb phrases rather than declined or inflected nouns and verbs). But a convolutional neural network trained &lt;em&gt;at a character level&lt;/em&gt; proves very effective at solving NLP tasks. It’s also fun to see Yann LeCun, who is primarily known for his deep learning work on computer vision, involved in   fun work on text.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;[* &lt;a href=&quot;http://arxiv.org/abs/1512.01563&quot;&gt;State of the Art Control of Atari Games Using Shallow Reinforcement Learning&lt;/a&gt;: 
+This paper contains a very careful analysis of the evaluation methods used in the deep Q learning papers and compares those results to the proposed shallow strategy wherever possible. It points out some weaknesses in the previous evaluation methods, but it does so in a way that is refreshingly respectful. The paper also succeeds at its goal of demonstrating that a non-deep-learning approach can be similarly effective at many of the Atari games.&lt;/p&gt;
+
+&lt;h3 id=&quot;favorite-data-visualization-method&quot;&gt;Favorite Data Visualization Method:&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;t-Distributed Stochastic Neighbor Embedding.
+&lt;img src=&quot;/images/tsne-example.png&quot; alt=&quot;t-sne&quot; /&gt;
+It’s a great unsupervised visualization technique and &lt;a href=&quot;https://github.com/lvdmaaten/bhtsne&quot;&gt;this implementation from Laurens van der Maaten, the first author of the t-sne paper&lt;/a&gt; doesn’t require a precalculated similarity matrix, so it can scale to millions of points.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;general-data-science-blog-posts&quot;&gt;General Data Science Blog Posts:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Trey Causey’s &lt;a href=&quot;http://treycausey.com/hiring_data_scientists.html&quot;&gt;post on hiring data scientists&lt;/a&gt; is a nice exploration of a difficult task.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Causey’s &lt;a href=&quot;http://treycausey.com/software_dev_skills.html&quot;&gt;software development skills for data scientists&lt;/a&gt; is also a worthwhile read. Software engineering skills are so important to productivity in practically and technical field in today’s world.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Robert Chang’s &lt;a href=&quot;https://medium.com/@rchang/my-two-year-journey-as-a-data-scientist-at-twitter-f0c13298aee6#.hat4lz5rs&quot;&gt;post about his experiences at twitter&lt;/a&gt; examines the differences between working as what might think of as a “data scientist” and a “data engineer.”&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Yannir Serioussi wrote about how &lt;a href=&quot;http://yanirseroussi.com/2015/11/23/the-hardest-parts-of-data-science/&quot;&gt;the most difficult things we do as data scientists/statisticians are epistemological.&lt;/a&gt; Reasoning in the face of uncertainty is so central to the work of data science.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;more-technical-blog-posts&quot;&gt;More Technical Blog Posts:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Peter Norvig’s &lt;a href=&quot;http://nbviewer.ipython.org/url/norvig.com/ipython/Gesture%20Typing.ipynb&quot;&gt;post on Swype-style keyboards&lt;/a&gt;. The most impressive thing about Norvig’s Jupyter notebooks are that he makes you feel like you could have solved the problem if you’d just thought a bit more carefully about it. It’s an unusual skill.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://googleresearch.blogspot.com/2015/06/inceptionism-going-deeper-into-neural.html&quot;&gt;Deep Dream&lt;/a&gt; used learned transformations from CNN layers to highlight what the network thought it was looking at. The post was one of the first instances of deep learning as a cultural phenomenon.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;In the great data science language wars, Rob Story is &lt;a href=&quot;https://medium.com/@oceankidbilly/python-vs-r-vs-cobol-which-is-best-for-data-science-7b2979c6a000#.il4kldvfj&quot;&gt;COBOL’s lone champion&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Bot detection is an important part of my day job, so I really enjoyed &lt;a href=&quot;http://www.erinshellman.com/bot-or-not/&quot;&gt;Erin Shellman’s piece on identifying bots on Twitter&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Andrej Karpathy’s &lt;a href=&quot;http://karpathy.github.io/2015/05/21/rnn-effectiveness/&quot;&gt;The Unreasonable Effectiveness of Recurrent Neural Networks&lt;/a&gt;. It’s a terrific advertisement for RNNs.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The past few months have seen an explosion of generative models for basically everything: Donald Trump speeches, anime characters, paintings, etc. &lt;a href=&quot;https://medium.com/@samim/assisted-drawing-7b26c81daf2d#.q9axsv7nm&quot;&gt;Samim’s post&lt;/a&gt; has some great videos on how generative models and multi-modal embeddings can impact the artistic process. He’s an interesting person to &lt;a href=&quot;twitter.com/samim&quot;&gt;follow on twitter, too. &lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;books&quot;&gt;Books:&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://mitpress.mit.edu/books/machine-learning-0&quot;&gt;Machine Learning: A Probabilistic Perspective&lt;/a&gt;. Sidesteps the frequentist vs Bayesian battles by focusing on the applications of probability. This book borrows liberally from other books and educational materials to present the concepts in a structured and cohesive way.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://shop.oreilly.com/product/0636920033400.do&quot;&gt;Data Science from Scratch&lt;/a&gt; by Joel Grus (an increasingly famous author) is a nice walkthrough of a lot of the basic concepts in data science.  It’s written in Python (2.7) with very few dependencies, so it feels very immediate. I would especially recommend it to students studying statistics or information, as it ties together the concepts with actual code.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://dswalter.github.io/blog/best-things-of-2015/&quot;&gt;Best things of 2015&lt;/a&gt; was originally published by Daniel Walter at &lt;a href=&quot;https://dswalter.github.io&quot;&gt;Subjective functions&lt;/a&gt; on January 01, 2016.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
