@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://dswalter.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="https://dswalter.github.io" />
-<updated>2016-01-02T01:35:27-05:00</updated>
+<updated>2016-01-02T01:38:36-05:00</updated>
 <id>https://dswalter.github.io/</id>
 <author>
   <name>Daniel Walter</name>
@@ -39,7 +39,7 @@
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1502.01710&quot;&gt;Text Understanding from Scratch&lt;/a&gt;:
-Using words as the building blocks of NLP for so long may partially be a result of much work being done in English (English is not a morphologically rich language, so a lot of our meaning is communicated using noun phrases and verb phrases rather than declined or inflected nouns and verbs). But a convolutional neural network trained &lt;em&gt;at a character level&lt;/em&gt; proves very effective at solving NLP tasks. It’s also fun to see Yann LeCun, who is primarily known for his deep learning work on computer vision, involved in   fun work on text.&lt;/p&gt;
+Using words as the building blocks of NLP for so long may partially be a result of much work being done in English (English is not a morphologically rich language, so a lot of our meaning is communicated using noun phrases and verb phrases rather than declined or inflected nouns and verbs). But a convolutional neural network trained &lt;em&gt;at a character level&lt;/em&gt; proves very effective at solving NLP tasks. It’s also fun to see Yann LeCun, who is primarily known for his deep learning work on computer vision, involved in  fun work on text.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1512.01563&quot;&gt;State of the Art Control of Atari Games Using Shallow Reinforcement Learning&lt;/a&gt;: 
@@ -50,9 +50,10 @@ This paper contains a very careful analysis of the evaluation methods used in th
 &lt;h3 id=&quot;favorite-data-visualization-method&quot;&gt;Favorite Data Visualization Method:&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;t-Distributed Stochastic Neighbor Embedding.
-&lt;img src=&quot;/images/tsne-example.png&quot; alt=&quot;t-sne&quot; /&gt;
-It’s a great unsupervised visualization technique and &lt;a href=&quot;https://github.com/lvdmaaten/bhtsne&quot;&gt;this implementation from Laurens van der Maaten, the first author of the t-sne paper&lt;/a&gt; doesn’t require a precalculated similarity matrix, so it can scale to millions of points.&lt;/li&gt;
+&lt;img src=&quot;/images/tsne-example.png&quot; alt=&quot;t-sne&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;It’s a great unsupervised visualization technique and &lt;a href=&quot;https://github.com/lvdmaaten/bhtsne&quot;&gt;this implementation from Laurens van der Maaten, the first author of the t-sne paper&lt;/a&gt; doesn’t require a precalculated similarity matrix, so it can scale to millions of points.&lt;/p&gt;
 
 &lt;h3 id=&quot;general-data-science-blog-posts&quot;&gt;General Data Science Blog Posts:&lt;/h3&gt;
 
