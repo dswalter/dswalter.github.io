@@ -38,21 +38,25 @@
 <p>In <a href="/category/blog.html">blog</a>.</p>
 
 </footer><!-- /.post-info -->      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">RegexpTokenizer</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">RegexpTokenizer</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 
 
-<p>I had a suspicion that a simple n-gram analysis, where we look at the co-occurring word sequences, would reveal some interesting insights into the presidential debates. so I grabbed a transcript off the internet and got to n-gramming.</p>
+<h1>A Presidential Debate in N-grams</h1>
+<p>While listening to the first presidential debate between Hillary Clinton and Donald Trump, I had a suspicion that a simple n-gram analysis, would reveal some interesting insights into their respective styles of speech.
+So I grabbed a transcript off the internet <a href="https://www.washingtonpost.com/news/the-fix/wp/2016/09/26/the-first-trump-clinton-presidential-debate-transcript-annotated/">(not the one here, but one like it)</a> and got to n-gramming.</p>
+<p>(<em>N-grams</em> are phrases of length <em>n</em> from a text or speech. When n is 2, it's called a <em>bigram</em>; when n is 3 it's called a <em>trigram</em>. We use the term n-gram because it generalizes to whichever N we want.)</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/data/data/sentiment/debate_transcript.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">all_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
 </pre></div>
 
 
+<p>What we get at the end of the function below is a list of 'tokens', or words, that a candidate has spoken. It takes care of a few formatting niceties: removing apostrophes so contractions are only one 'token', removing the candidates' names from their own speeches, changing the newline character to the word "NEWLINE", changing everything to lower case, and removing all punctuation.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tokenize_by_user</span><span class="p">(</span><span class="n">line_list</span><span class="p">,</span> <span class="n">identifying_string</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reads in lines, filters based on the identifying string, and returns a list of tokens.&quot;&quot;&quot;</span>
     <span class="n">speaker_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">line_list</span> <span class="k">if</span> <span class="n">identifying_string</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
@@ -68,38 +72,36 @@
 </pre></div>
 
 
+<p>We need a list of tokens for both candidates.</p>
 <div class="highlight"><pre><span></span><span class="n">trump_tokens</span> <span class="o">=</span> <span class="n">tokenize_by_user</span><span class="p">(</span><span class="n">all_lines</span><span class="p">,</span> <span class="s2">&quot;Donald Trump:&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">clinton_tokens</span> <span class="o">=</span>  <span class="n">tokenize_by_user</span><span class="p">(</span><span class="n">all_lines</span><span class="p">,</span> <span class="s2">&quot;Hillary Clinton:&quot;</span><span class="p">)</span>
+<span class="n">clinton_tokens</span> <span class="o">=</span>  <span class="n">tokenize_by_user</span><span class="p">(</span><span class="n">all_lines</span><span class="p">,</span> <span class="s2">&quot;Hillary Clinton:&quot;</span><span class="p">)</span>
 </pre></div>
 
 
 <div class="highlight"><pre><span></span><span class="n">trump_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">trump_tokens</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total number of words spoken by Trump: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_tokens</span><span class="p">)))</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of unique words spoken by Trump: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Ratio of unique words to total words: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_tokens</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Ratio of unique words to total words: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_tokens</span><span class="p">),</span><span class="mi">3</span><span class="p">)))</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">clinton_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total number of words spoken by Clinton: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">)))</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of unique words spoken by Clinton: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Ratio of unique words to total words: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Ratio of unique words to total words: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">),</span><span class="mi">3</span><span class="p">)))</span>
 </pre></div>
 
 
 <div class="highlight"><pre><span></span>Total number of words spoken by Trump: 4153
 Number of unique words spoken by Trump: 827
-Ratio of unique words to total words: 0.19913315675415363
+Ratio of unique words to total words: 0.199
 
 
 Total number of words spoken by Clinton: 3099
 Number of unique words spoken by Clinton: 843
-Ratio of unique words to total words: 0.27202323330106487
+Ratio of unique words to total words: 0.272
 </pre></div>
 
 
-<p>Most of us at the debate probably realized that Mr. Trump spoke more than Secretary Clinton, but the disparity is sizeable, given the relatively tight structure of the debate. Mr. Trump likely speaks more quickly, but he may have also spoken for more time during the debate as well.</p>
+<p>The disparity between their respective words spoken is sizable given the relatively tight structure of the debate. Mr. Trump seems to speak more quickly than Secretary Clinton, which is borne out in this dataset. <a href="http://www.nytimes.com/2016/09/28/us/politics/by-the-numbers-debate.html">The New York Times reports</a> he spoke for 44:23 compared to her 41:21, so while he spoke for more time overall, he must speak more quickly as well.</p>
 <div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">trump_counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
 </pre></div>
 
@@ -154,7 +156,7 @@ Ratio of unique words to total words: 0.27202323330106487
 </pre></div>
 
 
-<p>As would be expected, these lists are mostly dominated by stop-words. Mr. Trump's most commonly spoken word , 'I', is Secretary Clinton's fourth most commonly spoken.</p>
+<p>As would be expected, these lists are mostly dominated by stop-words. Mr. Trump's most commonly spoken word, 'I', is Secretary Clinton's fourth most commonly spoken.</p>
 <div class="highlight"><pre><span></span><span class="n">trump_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;word&#39;</span><span class="p">:</span><span class="n">trump_tokens</span><span class="p">})</span>
 <span class="n">trump_df</span><span class="p">[</span><span class="s1">&#39;wordlength&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">trump_df</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
 <span class="n">clinton_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;word&#39;</span><span class="p">:</span><span class="n">clinton_tokens</span><span class="p">})</span>
@@ -168,32 +170,18 @@ Ratio of unique words to total words: 0.27202323330106487
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7ff8a2a895c0&gt;
+<div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7f80635fd7b8&gt;
 </pre></div>
 
 
-<p><img alt="png" src="/images/output_11_1.png" /></p>
+<p><img alt="png" src="output_12_1.png" /></p>
 <p>In general, Mr. Trump used shorter words than Secretary Clinton.</p>
 <h2>The n-grams part</h2>
-<p>What we wanted to know was whether there were phrases that popped up frequently for each candidate, so we analyzed for n=2...10 whether there were repeated phrases. My implementation is naive, as it considers the entire spoken corpus of each candidate as one document.</p>
+<p>What we wanted to know was whether there were phrases that popped up frequently for each candidate, so we analyzed for n=2...10 whether there were repeated phrases. My implementation is naive, as it considers the entire spoken corpus of each candidate as one document. The <strong>find_ngrams</strong> function is a nice little piece of code I found on <a href="http://locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/">Scott Triglia's</a> blog.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_ngrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="s2">&quot;A relatively elegant n-gram method I found on StackOverflow&quot;</span>
     <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
 
 <span class="k">def</span> <span class="nf">print_ngrams</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">n_grams</span><span class="p">,</span> <span class="n">candidate_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Starts with tokens and ends with only the top 15 n-grams that have been repeated</span>
-<span class="sd">    where available&quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{}&#39;s {}-grams&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">candidate_name</span><span class="p">,</span> <span class="n">n_grams</span><span class="p">))</span>
-    <span class="n">found_ngrams</span> <span class="o">=</span> <span class="n">find_ngrams</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">n_grams</span><span class="p">)</span>
-    <span class="n">ngramcount</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">found_ngrams</span><span class="p">)</span>
-    <span class="n">repeat_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ngramcount</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">ngramcount</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">relevant_entries</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([[</span><span class="n">key</span><span class="p">,</span><span class="n">ngramcount</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">repeat_keys</span><span class="p">],</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">pprint</span><span class="p">(</span><span class="n">relevant_entries</span><span class="p">[:</span><span class="mi">15</span><span class="p">])</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_ngrams</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">n_grams</span><span class="p">,</span> <span class="n">candidate_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Starts with tokens and ends with only the top 15 n-grams that have been repeated</span>
 <span class="sd">    where available&quot;&quot;&quot;</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{}&#39;s {}-grams&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">candidate_name</span><span class="p">,</span> <span class="n">n_grams</span><span class="p">))</span>
@@ -210,12 +198,9 @@ Ratio of unique words to total words: 0.27202323330106487
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">trump_repeats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">clinton_repeats</span> <span class="o">=</span> <span class="p">{}</span>
-</pre></div>
+<div class="highlight"><pre><span></span><span class="n">trump_repeats</span><span class="p">,</span> <span class="n">clinton_repeats</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
 
-
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n_gram</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">n_gram</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">clinton_repeats</span><span class="p">[</span><span class="n">n_gram</span><span class="p">]</span> <span class="o">=</span> <span class="n">print_ngrams</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">,</span> <span class="n">n_gram</span><span class="p">,</span> <span class="s1">&#39;Hillary Clinton&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -461,7 +446,7 @@ Donald Trump&#39;s 9-grams
 </pre></div>
 
 
-<h3>A few phrases seem to be rehearsed:</h3>
+<h3>A few phrases seem notably rehearsed:</h3>
 <div class="highlight"><pre><span></span>&#39;we need law and order&#39; : 4 times
 
 &#39;whether its the iran deal&#39; : 2 times
@@ -484,7 +469,8 @@ Donald Trump&#39;s 9-grams
 </pre></div>
 
 
-<p>Mr. Trump had two repeated 9-grams, which are pretty sizable pieces of text. I also thought it would be worth looking at the total number of n-grams for each speaker.</p>
+<p>Mr. Trump had two repeated 9-grams, which are pretty sizable pieces of text. The last four n-grams all sound like they were soundbites that had been chosen specifically for this debate.</p>
+<p>Finally, I thought it would be worth looking at the total number of n-grams for each speaker.</p>
 <div class="highlight"><pre><span></span><span class="n">trump_repeat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">trump_repeats</span><span class="p">)</span>
 <span class="n">trump_repeat</span> <span class="o">=</span> <span class="n">trump_repeat</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trump_tokens</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">clinton_tokens</span><span class="p">))</span>
 <span class="n">trump_repeat</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of repeated n-grams for Donald Trump&#39;</span><span class="p">)</span>
@@ -498,11 +484,11 @@ Donald Trump&#39;s 9-grams
 </pre></div>
 
 
-<p><img alt="png" src="/images/output_21_0.png" /></p>
-<p><img alt="png" src="/images/output_21_1.png" /></p>
+<p><img alt="png" src="output_20_0.png" /></p>
+<p><img alt="png" src="output_20_1.png" /></p>
 <p>For the images above, I accounted for the difference in total words spoken between the two by scaling Mr. Trump's counts by the same factor his total tokens outnumbered Secretary Clinton's. It is immmediately clear that Mr. Trump had more repeated phrase chunks of every size.</p>
 <h1>Conclusions?</h1>
-<p>From this cursory n-gram-based method of analysis, it appears that Mr. Trump had more repeated phrases, even relatively longer phrases, than Secretary Clinton. One explanation could be that Mr. Trump's debate preparation may have emphasizeds word-for-word talking points more than Secretary Clinton's.</p>
+<p>From this cursory n-gram-based method of analysis, it appears that Mr. Trump had more repeated phrases, even relatively longer phrases, than Secretary Clinton. One explanation could be that Mr. Trump's debate preparation may have emphasized word-for-word talking points more than Secretary Clinton's.</p>
     </div><!-- /.entry-content -->
 
   </article>
