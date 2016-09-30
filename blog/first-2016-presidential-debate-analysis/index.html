@@ -48,7 +48,7 @@
 
 
 <h1>A Presidential Debate in N-grams</h1>
-<p>While listening to the first presidential debate between Hillary Clinton and Donald Trump, I had a suspicion that a simple n-gram analysis, would reveal some interesting insights into their respective styles of speech.
+<p>While listening to the first presidential debate between Hillary Clinton and Donald Trump, I had a suspicion that a simple n-gram analysis would reveal some interesting insights into their respective styles of speech.
 So I grabbed a transcript off the internet <a href="https://www.washingtonpost.com/news/the-fix/wp/2016/09/26/the-first-trump-clinton-presidential-debate-transcript-annotated/">(not the one here, but one like it)</a> and got to n-gramming.</p>
 <p>(<em>N-grams</em> are phrases of length <em>n</em> from a text or speech. When n is 2, it's called a <em>bigram</em>; when n is 3 it's called a <em>trigram</em>. We use the term n-gram because it generalizes to whichever N we want.)</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/data/data/sentiment/debate_transcript.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
