@@ -165,11 +165,7 @@ Ratio of unique words to total words: 0.272
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;matplotlib.text.Text at 0x7f80635fd7b8&gt;
-</pre></div>
-
-
-<p><img alt="png" src="output_12_1.png" /></p>
+<p><img alt="png" src="/images/output_12_1.png" /></p>
 <p>In general, Mr. Trump used shorter words than Secretary Clinton.</p>
 <h2>The n-grams part</h2>
 <p>What we wanted to know was whether there were phrases that popped up frequently for each candidate, so we analyzed for n=2...10 whether there were repeated phrases. My implementation is naive, as it considers the entire spoken corpus of each candidate as one document. The <strong>find_ngrams</strong> function is a nice little piece of code I found on <a href="http://locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/">Scott Triglia's</a> blog.</p>
@@ -479,8 +475,8 @@ Donald Trump&#39;s 9-grams
 </pre></div>
 
 
-<p><img alt="png" src="output_20_0.png" /></p>
-<p><img alt="png" src="output_20_1.png" /></p>
+<p><img alt="png" src="/images/output_20_0.png" /></p>
+<p><img alt="png" src="/images/output_20_1.png" /></p>
 <p>For the images above, I accounted for the difference in total words spoken between the two by scaling Mr. Trump's counts by the same factor his total tokens outnumbered Secretary Clinton's. It is immmediately clear that Mr. Trump had more repeated phrase chunks of every size.</p>
 <h1>Conclusions?</h1>
 <p>From this cursory n-gram-based method of analysis, it appears that Mr. Trump had more repeated phrases, even relatively longer phrases, than Secretary Clinton. One explanation could be that Mr. Trump's debate preparation may have emphasized word-for-word talking points more than Secretary Clinton's.</p>                </article>
