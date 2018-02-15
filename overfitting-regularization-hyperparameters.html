@@ -3,7 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>Overfitting, Regularization, and Hyperparameters</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="https://dswalter.github.io/theme/css/main.css" />
+        <link href="https://dswalter.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Subjective Functions Atom Feed" />
 
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -12,17 +13,17 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Subjective Functions </a></h1>
+                <h1><a href="https://dswalter.github.io/">Subjective Functions </a></h1>
                 <nav><ul>
-                    <li><a href="/pages/about-me.html">About Me</a></li>
-                    <li class="active"><a href="/category/blog.html">blog</a></li>
+                    <li><a href="https://dswalter.github.io/pages/about-me.html">About Me</a></li>
+                    <li class="active"><a href="https://dswalter.github.io/category/blog.html">blog</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/overfitting-regularization-hyperparameters/index.html" rel="bookmark"
+        <a href="https://dswalter.github.io/overfitting-regularization-hyperparameters.html" rel="bookmark"
            title="Permalink to Overfitting, Regularization, and Hyperparameters">Overfitting, Regularization, and Hyperparameters</a></h1>
     </header>
 
@@ -33,23 +34,23 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/daniel-walter.html">Daniel Walter</a>
+                By                         <a class="url fn" href="https://dswalter.github.io/author/daniel-walter.html">Daniel Walter</a>
         </address>
-<p>In <a href="/category/blog.html">blog</a>.</p>
+<p>In <a href="https://dswalter.github.io/category/blog.html">blog</a>.</p>
 
 </footer><!-- /.post-info -->      <p>(This lays the ground work for the next post, which was getting too long to be effective.)</p>
 <h3>Overfitting</h3>
 <p>One of the goals of machine learning is generalizability. A model that only works on the exact data it was trained on is effectively useless. Let's say you're tasked with creating a bird-recognition system. If you train a model to recognize pictures of birds, and it gets 100% accuracy on the 130 pictures of 10 classes of birds you showed it, is it a good model?</p>
 <p>It might be, but it depends on how the model performs on images it was not trained on. If performance measures on both the training set and the test set are good, then the model is performing well. But if performance on the test set is bad, then that model is not particularly useful. Through some mechanism, your model has 'memorized' the 1300 pictures you showed it. You already had those pictures, so you don't gain anything by using the model.</p>
 <p>In an ideal world, your algorithm would be able to to discriminate between different types of birds, even if the pictures are very different from the examples it has seen before. To do that, it needs to identify features of those birds that are constant for each bird rather than features of a particular picture or photography session. There are a number of ways an algorithm might try to characterize a Blue-Faced Parrot Finch from this picture below, for eample. One good feature might be to recognize that the Blue-Faced Parrot Finch has an area on its face that is blue.</p>
-<p><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Blue-faced_Parrotfinch.jpg/1024px-Blue-faced_Parrotfinch.jpg" />
+<p><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Blue-faced_Parrotfinch.jpg/1024px-Blue-faced_Parrotfinch.jpg">
 <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Blue-faced_Parrotfinch.jpg/1024px-Blue-faced_Parrotfinch.jpg">credit for this image: Wikipedia user Nrg800</a></p>
 <p>We might want to check another picture to see if this feature is consistently present.</p>
-<p><img alt="" src="http://www.cliftonfinchaviaries.org/fsa/blue/bf9.JPG" /></p>
+<p><img alt="" src="http://www.cliftonfinchaviaries.org/fsa/blue/bf9.JPG"></p>
 <p><a href="http://www.cliftonfinchaviaries.org">credit for this image:  www.cliftonfinchaviaries.org</a></p>
 <p>So far so good. This picture of a Blue-Faced Parrot Finch also has a blue face; it seems like a good feature to use to characterize this bird. But what if the algorithm identified a different feature? In the first picture, the bird stood on a forked branch. If 'forked branch' was one of the features it used to identify this bird, it would not have generalized to all pictures of this bird. Or, in both of these pictures, the bird is facing to the right; the algorithm might decide that facing to the right is a defining characteristic of this finch. In machine learning, we call these cases <em>overfitting</em>: an algorithm learns non-generalizable characteristics only present in the training data.</p>
 <p>Overfitting is one of the hidden specters of the field. As the complexity of your model increases, the potential for overfitting increases as well. In this illustration below, the blue line represents the error rate on the training data, and the red line represents the error rate on the testing data.
-<img alt="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png" src="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png" />
+<img alt="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png" src="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png">
 <a href="www.richardcorbridge.com">h/t to Richard Corbridge for this clean overfitting graphic</a></p>
 <p>As the representation capacity of your model increases, it is better able to capture variation in the training data, so the blue line monotonically decreases. The red line (testing data error rate) follows that trajectory initially: the model is learning things that are generalizable. But at some point, the model starts to learn features specific to the training data (like our forked branch above), and performance on the testing data begins to suffer: the test data isn't exactly like the training data, so the 'memorized' features hurt generalizability.</p>
 <h3>Regularization</h3>
@@ -59,7 +60,7 @@
 <h3>Hyperparameter Optimization</h3>
 <p>When introducing a regularization method, you have to decide how much weight you want to give to that regularization method. You can pick larger or smaller values for your complexity penalty depending on how much you think overfitting is going to be a problem for your current use case. This exposes one of the open secrets of machine learning: the goal is to get the computer to learn how to make decisions automatically, but there are values (like the size of the complexity penalty) impacting performance that must be chosen.</p>
 <p>Every machine learning algorithm has these values, called <em>hyperparameters</em>. These hyperparameters are values or functions that govern the way the algorithm behaves. Think of them like the dials and switches on a vintage amplifier.</p>
-<p><img alt="fewer hyperparameters than the average deep neural network" src="https://bb3blog.files.wordpress.com/2012/06/san-505-copy.jpg" /></p>
+<p><img alt="fewer hyperparameters than the average deep neural network" src="https://bb3blog.files.wordpress.com/2012/06/san-505-copy.jpg"></p>
 <p>There are different combinations of amp settings that are better suited to produce different types of sounds; similarly, different configurations of hyperparameters work better for different tasks. Hyperparameters include things like the number of layers in a <a href="http://ufldl.stanford.edu/tutorial/supervised/ConvolutionalNeuralNetwork/">convolutional neural network</a> or the number of neighbors used in a <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">nearest neighbor classifier</a>, and they can have a massive impact on how the algorithm performs. Once, I used latent dirichlet allocation <a href="http://ai.stanford.edu/~ang/papers/nips01-lda.pdf">(a topic modeling algorithm)</a> as part of a classification task, and I found that by changing the \(\alpha\) and \(\beta\) parameters, the prediction accuracy on my test set could vary from 0.04 to 0.41. That's an order of magnitude of difference based on fiddling with two dials.</p>
 <p>Finding the best combination of hyperparameters is called <em>hyperparameter optimization</em>; it is almost impossible to beat state of the art methods without performing hyperparameter optimization. But there are some subtle dangers. Using one algorithm "out-of-the-box" and laboriously tuning hyperparameters for another example leads to an unfair comparison: in general, hyperparameter optimization squeezes out better performance. A better algorithm will in general outperform a worse algorithm, but sometimes, you can find the perfect combination of hyperparameters, which will allow the best-case version of the lesser algorithm to beat an average version of the better algorithm. Choosing the best hyperparameters is like playing with the dials of one amp until you find the perfect sound; It's not really fair to compare the sound of a perfectly-adjusted amplifier with one you use default settings on.</p>
 <p>And most vexingly, hyperparameter optimization can lead to overfitting: if a researcher runs 400 experiments on the same train-test splits, then performance on the test data is being incorporated into the training data by choice of hyperparameters. This is true even if regularization is being used! With each time an algorithm is evaluated on the test data, that test data becomes less useful as an "unsullied" evaluator of performance. By the 400th or 4000th evaluation, the test data holds very little mystery and is no longer functioning as a test dataset; it has become a secondary training set.</p>
@@ -72,11 +73,22 @@
   </article>
 </section>
         <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
                 <div class="social">
                         <h2>social</h2>
                         <ul>
+                            <li><a href="https://dswalter.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
-                            <li><a href="http://twitter.com/notthatdsw">notthatdsw</a></li>
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->

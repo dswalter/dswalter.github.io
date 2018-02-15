@@ -3,7 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>A Presidential Debate in N-grams</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="https://dswalter.github.io/theme/css/main.css" />
+        <link href="https://dswalter.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Subjective Functions Atom Feed" />
 
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -12,30 +13,30 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Subjective Functions </a></h1>
+                <h1><a href="https://dswalter.github.io/">Subjective Functions </a></h1>
                 <nav><ul>
-                    <li><a href="/pages/about-me.html">About Me</a></li>
-                    <li class="active"><a href="/category/blog.html">blog</a></li>
+                    <li><a href="https://dswalter.github.io/pages/about-me.html">About Me</a></li>
+                    <li class="active"><a href="https://dswalter.github.io/category/blog.html">blog</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/first-2016-presidential-debate-analysis/index.html" rel="bookmark"
+        <a href="https://dswalter.github.io/first-2016-presidential-debate-analysis.html" rel="bookmark"
            title="Permalink to A Presidential Debate in N-grams">A Presidential Debate in N-grams</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2016-09-28T10:55:00-05:00">
+        <abbr class="published" title="2016-09-28T10:55:00-04:00">
                 Published: Wed 28 September 2016
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/daniel-walter.html">Daniel Walter</a>
+                By                         <a class="url fn" href="https://dswalter.github.io/author/daniel-walter.html">Daniel Walter</a>
         </address>
-<p>In <a href="/category/blog.html">blog</a>.</p>
+<p>In <a href="https://dswalter.github.io/category/blog.html">blog</a>.</p>
 
 </footer><!-- /.post-info -->      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -66,7 +67,7 @@ So I grabbed a transcript off the internet <a href="https://www.washingtonpost.c
         <span class="n">speaker_text</span> <span class="o">=</span> <span class="n">speaker_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">speaker_text</span> <span class="o">=</span> <span class="n">speaker_text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">speaker_text</span> <span class="o">=</span> <span class="n">speaker_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; NEWLINE &quot;</span><span class="p">)</span>
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="s1">r&#39;\w+&#39;</span><span class="p">)</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">)</span>
     <span class="n">speaker_tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">speaker_text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">speaker_tokens</span>
 </pre></div>
@@ -170,7 +171,7 @@ Ratio of unique words to total words: 0.272
 </pre></div>
 
 
-<p><img alt="png" src="/images/output_12_1.png" /></p>
+<p><img alt="png" src="https://dswalter.github.io/images/output_12_1.png"></p>
 <p>In general, Mr. Trump used shorter words than Secretary Clinton.</p>
 <h2>The n-grams part</h2>
 <p>What we wanted to know was whether there were phrases that popped up frequently for each candidate, so we analyzed for n=2...10 whether there were repeated phrases. My implementation is naive, as it considers the entire spoken corpus of each candidate as one document. The <strong>find_ngrams</strong> function is a nice little piece of code I found on <a href="http://locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/">Scott Triglia's</a> blog.</p>
@@ -480,8 +481,8 @@ Donald Trump&#39;s 9-grams
 </pre></div>
 
 
-<p><img alt="png" src="/images/output_20_0.png" /></p>
-<p><img alt="png" src="/images/output_20_1.png" /></p>
+<p><img alt="png" src="https://dswalter.github.io/images/output_20_0.png"></p>
+<p><img alt="png" src="https://dswalter.github.io/images/output_20_1.png"></p>
 <p>For the images above, I accounted for the difference in total words spoken between the two by scaling Mr. Trump's counts by the same factor his total tokens outnumbered Secretary Clinton's. It is immmediately clear that Mr. Trump had more repeated phrase chunks of every size.</p>
 <h1>Conclusions?</h1>
 <p>From this cursory n-gram-based method of analysis, it appears that Mr. Trump had more repeated phrases, even relatively longer phrases, than Secretary Clinton. One explanation could be that Mr. Trump's debate preparation may have emphasized word-for-word talking points more than Secretary Clinton's.</p>
@@ -490,11 +491,22 @@ Donald Trump&#39;s 9-grams
   </article>
 </section>
         <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
                 <div class="social">
                         <h2>social</h2>
                         <ul>
+                            <li><a href="https://dswalter.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
-                            <li><a href="http://twitter.com/notthatdsw">notthatdsw</a></li>
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->

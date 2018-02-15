@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Subjective Functions - blog</title><link href="https://dswalter.github.io/" rel="alternate"></link><link href="https://dswalter.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dswalter.github.io/</id><updated>2016-09-28T10:55:00-04:00</updated><entry><title>A Presidential Debate in N-grams</title><link href="https://dswalter.github.io/first-2016-presidential-debate-analysis.html" rel="alternate"></link><published>2016-09-28T10:55:00-04:00</published><updated>2016-09-28T10:55:00-04:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2016-09-28:/first-2016-presidential-debate-analysis.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;nltk.tokenize&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RegexpTokenizer&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pprint&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;pprint&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;seaborn&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sns&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;A Presidential Debate in N-grams&lt;/h1&gt;
+&lt;p&gt;While listening to the first presidential debate between Hillary Clinton and Donald Trump, I had a suspicion …&lt;/p&gt;</summary><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;nltk.tokenize&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RegexpTokenizer&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pprint&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;pprint&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;seaborn&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sns&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;A Presidential Debate in N-grams&lt;/h1&gt;
+&lt;p&gt;While listening to the first presidential debate between Hillary Clinton and Donald Trump, I had a suspicion that a simple n-gram analysis would reveal some interesting insights into their respective styles of speech.
+So I grabbed a transcript off the internet &lt;a href="https://www.washingtonpost.com/news/the-fix/wp/2016/09/26/the-first-trump-clinton-presidential-debate-transcript-annotated/"&gt;(not the one here, but one like it)&lt;/a&gt; and got to n-gramming.&lt;/p&gt;
+&lt;p&gt;(&lt;em&gt;N-grams&lt;/em&gt; are phrases of length &lt;em&gt;n&lt;/em&gt; from a text or speech. When n is 2, it's called a &lt;em&gt;bigram&lt;/em&gt;; when n is 3 it's called a &lt;em&gt;trigram&lt;/em&gt;. We use the term n-gram because it generalizes to whichever N we want.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/data/data/sentiment/debate_transcript.txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;all_lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What we get at the end of the function below is a list of 'tokens', or words, that a candidate has spoken. It takes care of a few formatting niceties: removing apostrophes so contractions are only one 'token', removing the candidates' names from their own speeches, changing the newline character to the word "NEWLINE", changing everything to lower case, and removing all punctuation.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;tokenize_by_user&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;identifying_string&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Reads in lines, filters based on the identifying string, and returns a list of tokens.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;speaker_lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;line_list&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;identifying_string&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;speaker_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;speaker_lines&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;strings_to_drop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;identifying_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;’&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;element&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;strings_to_drop&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;speaker_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;speaker_text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;element&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;speaker_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;speaker_text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;speaker_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;speaker_text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; NEWLINE &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;tokenizer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;RegexpTokenizer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\w+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;speaker_tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tokenizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tokenize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;speaker_text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;speaker_tokens&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We need a list of tokens for both candidates.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tokenize_by_user&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;all_lines&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Donald Trump:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;clinton_tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;tokenize_by_user&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;all_lines&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hillary Clinton:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;trump_counter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Total number of words spoken by Trump: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Number of unique words spoken by Trump: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;())))&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Ratio of unique words to total words: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;clinton_counter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Total number of words spoken by Clinton: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Number of unique words spoken by Clinton: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;())))&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Ratio of unique words to total words: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Total number of words spoken by Trump: 4153
+Number of unique words spoken by Trump: 827
+Ratio of unique words to total words: 0.199
+
+
+Total number of words spoken by Clinton: 3099
+Number of unique words spoken by Clinton: 843
+Ratio of unique words to total words: 0.272
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The disparity between their respective words spoken is sizable given the relatively tight structure of the debate. Mr. Trump seems to speak more quickly than Secretary Clinton, which is borne out in this dataset. &lt;a href="http://www.nytimes.com/2016/09/28/us/politics/by-the-numbers-debate.html"&gt;The New York Times reports&lt;/a&gt; he spoke for 44:23 compared to her 41:21, so while he spoke for more time overall, he must speak more quickly as well.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pprint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[(&amp;#39;i&amp;#39;, 137),
+ (&amp;#39;NEWLINE&amp;#39;, 136),
+ (&amp;#39;the&amp;#39;, 135),
+ (&amp;#39;to&amp;#39;, 129),
+ (&amp;#39;and&amp;#39;, 122),
+ (&amp;#39;you&amp;#39;, 111),
+ (&amp;#39;that&amp;#39;, 78),
+ (&amp;#39;of&amp;#39;, 74),
+ (&amp;#39;a&amp;#39;, 73),
+ (&amp;#39;have&amp;#39;, 71),
+ (&amp;#39;it&amp;#39;, 63),
+ (&amp;#39;in&amp;#39;, 40),
+ (&amp;#39;we&amp;#39;, 39),
+ (&amp;#39;was&amp;#39;, 38),
+ (&amp;#39;its&amp;#39;, 36),
+ (&amp;#39;but&amp;#39;, 36),
+ (&amp;#39;very&amp;#39;, 35),
+ (&amp;#39;are&amp;#39;, 34),
+ (&amp;#39;not&amp;#39;, 32),
+ (&amp;#39;is&amp;#39;, 32)]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pprint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[(&amp;#39;the&amp;#39;, 119),
+ (&amp;#39;and&amp;#39;, 106),
+ (&amp;#39;NEWLINE&amp;#39;, 97),
+ (&amp;#39;to&amp;#39;, 90),
+ (&amp;#39;i&amp;#39;, 84),
+ (&amp;#39;that&amp;#39;, 73),
+ (&amp;#39;a&amp;#39;, 67),
+ (&amp;#39;of&amp;#39;, 62),
+ (&amp;#39;you&amp;#39;, 46),
+ (&amp;#39;in&amp;#39;, 44),
+ (&amp;#39;we&amp;#39;, 43),
+ (&amp;#39;it&amp;#39;, 38),
+ (&amp;#39;well&amp;#39;, 34),
+ (&amp;#39;have&amp;#39;, 34),
+ (&amp;#39;is&amp;#39;, 33),
+ (&amp;#39;be&amp;#39;, 33),
+ (&amp;#39;for&amp;#39;, 28),
+ (&amp;#39;think&amp;#39;, 28),
+ (&amp;#39;not&amp;#39;, 24),
+ (&amp;#39;about&amp;#39;, 24)]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As would be expected, these lists are mostly dominated by stop-words. Mr. Trump's most commonly spoken word, 'I', is Secretary Clinton's fourth most commonly spoken.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;trump_df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;word&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="n"&gt;trump_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wordlength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;trump_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;word&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;clinton_df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;word&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="n"&gt;clinton_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wordlength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;clinton_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;word&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;trump_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wordlength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;A histogram of Donald Trump&amp;#39;s Word Lengths&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;clinton_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wordlength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;blue&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;A histogram of Word Lengths (colors are based on party lines)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="png" src="https://dswalter.github.io/images/output_12_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;In general, Mr. Trump used shorter words than Secretary Clinton.&lt;/p&gt;
+&lt;h2&gt;The n-grams part&lt;/h2&gt;
+&lt;p&gt;What we wanted to know was whether there were phrases that popped up frequently for each candidate, so we analyzed for n=2...10 whether there were repeated phrases. My implementation is naive, as it considers the entire spoken corpus of each candidate as one document. The &lt;strong&gt;find_ngrams&lt;/strong&gt; function is a nice little piece of code I found on &lt;a href="http://locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/"&gt;Scott Triglia's&lt;/a&gt; blog.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_tokens&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_grams&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;candidate_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Starts with tokens and ends with only the top 15 n-grams that have been repeated&lt;/span&gt;
+&lt;span class="sd"&gt;    where available&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{}&amp;#39;s {}-grams&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;candidate_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_grams&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;found_ngrams&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_tokens&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_grams&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;ngramcount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;found_ngrams&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;repeat_keys&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;ngramcount&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;ngramcount&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;relevant_entries&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngramcount&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;repeat_keys&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{} {}-grams were repeated&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;relevant_entries&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;n_grams&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;relevant_entries&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;{}&amp;#39; : {} times &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;NEWLINE&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="c1"&gt;#pprint(relevant_entries[:15])&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;relevant_entries&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;trump_repeats&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clinton_repeats&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{},&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;n_gram&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;clinton_repeats&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n_gram&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;print_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_gram&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Hillary Clinton&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Hillary Clinton&amp;#39;s 2-grams
+326 2-grams were repeated
+&amp;#39;i think&amp;#39; : 27 times
+&amp;#39;- well&amp;#39; : 24 times
+&amp;#39;you know&amp;#39; : 14 times
+&amp;#39;and i&amp;#39; : 14 times
+&amp;#39;to be&amp;#39; : 13 times
+&amp;#39;a lot&amp;#39; : 11 times
+&amp;#39;i have&amp;#39; : 11 times
+&amp;#39;of the&amp;#39; : 10 times
+&amp;#39;- and&amp;#39; : 10 times
+&amp;#39;and the&amp;#39; : 10 times
+&amp;#39;in the&amp;#39; : 10 times
+&amp;#39;well i&amp;#39; : 8 times
+&amp;#39;to do&amp;#39; : 8 times
+&amp;#39;we need&amp;#39; : 8 times
+&amp;#39;need to&amp;#39; : 8 times
+
+
+Hillary Clinton&amp;#39;s 3-grams
+111 3-grams were repeated
+&amp;#39;a lot of&amp;#39; : 7 times
+&amp;#39;and i think&amp;#39; : 7 times
+&amp;#39;- well i&amp;#39; : 7 times
+&amp;#39;we need to&amp;#39; : 6 times
+&amp;#39;we should be&amp;#39; : 4 times
+&amp;#39;the middle class&amp;#39; : 4 times
+&amp;#39;need to do&amp;#39; : 4 times
+&amp;#39;well i think&amp;#39; : 4 times
+&amp;#39;the united states&amp;#39; : 3 times
+&amp;#39;- and i&amp;#39; : 3 times
+&amp;#39;i think we&amp;#39; : 3 times
+&amp;#39;to the debt&amp;#39; : 3 times
+&amp;#39;of the united&amp;#39; : 3 times
+&amp;#39;i wrote about&amp;#39; : 3 times
+&amp;#39;what kind of&amp;#39; : 3 times
+
+
+Hillary Clinton&amp;#39;s 4-grams
+32 4-grams were repeated
+&amp;#39;we need to do&amp;#39; : 4 times
+&amp;#39;- well i think&amp;#39; : 4 times
+&amp;#39;taxes on the wealthy&amp;#39; : 3 times
+&amp;#39;and i think its&amp;#39; : 3 times
+&amp;#39;of the united states&amp;#39; : 3 times
+&amp;#39;a lot - well&amp;#39; : 2 times
+&amp;#39;and the kind of&amp;#39; : 2 times
+&amp;#39;million people lost their&amp;#39; : 2 times
+&amp;#39;- there are different&amp;#39; : 2 times
+&amp;#39;i think we need&amp;#39; : 2 times
+&amp;#39;5 trillion to the&amp;#39; : 2 times
+&amp;#39;thats a lot of&amp;#39; : 2 times
+&amp;#39;add 5 trillion to&amp;#39; : 2 times
+&amp;#39;they dont give you&amp;#39; : 2 times
+&amp;#39;and you know what&amp;#39; : 2 times
+
+
+Hillary Clinton&amp;#39;s 5-grams
+8 5-grams were repeated
+&amp;#39;add 5 trillion to the&amp;#39; : 2 times
+&amp;#39;and i think its important&amp;#39; : 2 times
+&amp;#39;would add 5 trillion to&amp;#39; : 2 times
+&amp;#39;what i have proposed would&amp;#39; : 2 times
+&amp;#39;different - there are different&amp;#39; : 2 times
+&amp;#39;there are different - there&amp;#39; : 2 times
+&amp;#39;5 trillion to the debt&amp;#39; : 2 times
+&amp;#39;are different - there are&amp;#39; : 2 times
+
+
+Hillary Clinton&amp;#39;s 6-grams
+4 6-grams were repeated
+&amp;#39;there are different - there are&amp;#39; : 2 times
+&amp;#39;would add 5 trillion to the&amp;#39; : 2 times
+&amp;#39;are different - there are different&amp;#39; : 2 times
+&amp;#39;add 5 trillion to the debt&amp;#39; : 2 times
+
+
+Hillary Clinton&amp;#39;s 7-grams
+2 7-grams were repeated
+&amp;#39;would add 5 trillion to the debt&amp;#39; : 2 times
+&amp;#39;there are different - there are different&amp;#39; : 2 times
+
+
+Hillary Clinton&amp;#39;s 8-grams
+0 8-grams were repeated
+
+
+Hillary Clinton&amp;#39;s 9-grams
+0 9-grams were repeated
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;A few phrases seem notably rehearsed:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;#39;taxes on the wealthy&amp;#39; : 3 times
+
+&amp;#39;million people lost their&amp;#39; [jobs] : 2 times
+
+&amp;#39;would add 5 trillion to the debt&amp;#39; : 2 times
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Then there is the repeated phrase:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;#39;there are different - there are different&amp;#39; : 2 times,
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which may have come during an interruption. It's interesting to note that there are no 8 or 9-grams.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;n_gram&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;trump_repeats&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n_gram&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;print_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_gram&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Donald Trump&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Donald Trump&amp;#39;s 2-grams
+614 2-grams were repeated
+&amp;#39;going to&amp;#39; : 23 times
+&amp;#39;and i&amp;#39; : 18 times
+&amp;#39;have to&amp;#39; : 16 times
+&amp;#39;you have&amp;#39; : 16 times
+&amp;#39;- well&amp;#39; : 14 times
+&amp;#39;want to&amp;#39; : 14 times
+&amp;#39;of the&amp;#39; : 14 times
+&amp;#39;i was&amp;#39; : 13 times
+&amp;#39;our country&amp;#39; : 12 times
+&amp;#39;i dont&amp;#39; : 12 times
+&amp;#39;- i&amp;#39; : 12 times
+&amp;#39;tell you&amp;#39; : 11 times
+&amp;#39;we have&amp;#39; : 11 times
+&amp;#39;look at&amp;#39; : 11 times
+&amp;#39;- and&amp;#39; : 11 times
+
+
+Donald Trump&amp;#39;s 3-grams
+329 3-grams were repeated
+&amp;#39;i want to&amp;#39; : 7 times
+&amp;#39;you have to&amp;#39; : 6 times
+&amp;#39;theyre going to&amp;#39; : 6 times
+&amp;#39;you look at&amp;#39; : 6 times
+&amp;#39;will tell you&amp;#39; : 5 times
+&amp;#39;are going to&amp;#39; : 5 times
+&amp;#39;law and order&amp;#39; : 5 times
+&amp;#39;we have a&amp;#39; : 4 times
+&amp;#39;the other day&amp;#39; : 4 times
+&amp;#39;we need law&amp;#39; : 4 times
+&amp;#39;you are going&amp;#39; : 4 times
+&amp;#39;you want to&amp;#39; : 4 times
+&amp;#39;because i want&amp;#39; : 4 times
+&amp;#39;i will tell&amp;#39; : 4 times
+&amp;#39;want to get&amp;#39; : 4 times
+
+
+Donald Trump&amp;#39;s 4-grams
+153 4-grams were repeated
+&amp;#39;need law and order&amp;#39; : 4 times
+&amp;#39;you are going to&amp;#39; : 4 times
+&amp;#39;we need law and&amp;#39; : 4 times
+&amp;#39;to be able to&amp;#39; : 4 times
+&amp;#39;because i want to&amp;#39; : 4 times
+&amp;#39;want to get on&amp;#39; : 4 times
+&amp;#39;to get on to&amp;#39; : 4 times
+&amp;#39;i will tell you&amp;#39; : 4 times
+&amp;#39;i want to get&amp;#39; : 4 times
+&amp;#39;the kind of thinking&amp;#39; : 3 times
+&amp;#39;let me tell you&amp;#39; : 3 times
+&amp;#39;a great thing for&amp;#39; : 3 times
+&amp;#39;president obamas fault -&amp;#39; : 3 times
+&amp;#39;it president obamas fault&amp;#39; : 3 times
+&amp;#39;you have to be&amp;#39; : 3 times
+
+
+Donald Trump&amp;#39;s 5-grams
+77 5-grams were repeated
+&amp;#39;we need law and order&amp;#39; : 4 times
+&amp;#39;i want to get on&amp;#39; : 4 times
+&amp;#39;because i want to get&amp;#39; : 4 times
+&amp;#39;want to get on to&amp;#39; : 4 times
+&amp;#39;of thinking that our country&amp;#39; : 3 times
+&amp;#39;have to be able to&amp;#39; : 3 times
+&amp;#39;thinking that our country needs&amp;#39; : 3 times
+&amp;#39;the kind of thinking that&amp;#39; : 3 times
+&amp;#39;i was against the war&amp;#39; : 3 times
+&amp;#39;where did you find this&amp;#39; : 3 times
+&amp;#39;is it president obamas fault&amp;#39; : 3 times
+&amp;#39;you have to be able&amp;#39; : 3 times
+&amp;#39;kind of thinking that our&amp;#39; : 3 times
+&amp;#39;it president obamas fault -&amp;#39; : 3 times
+&amp;#39;whether its the iran deal&amp;#39; : 2 times
+
+
+Donald Trump&amp;#39;s 6-grams
+36 6-grams were repeated
+&amp;#39;i want to get on to&amp;#39; : 4 times
+&amp;#39;because i want to get on&amp;#39; : 4 times
+&amp;#39;is it president obamas fault -&amp;#39; : 3 times
+&amp;#39;kind of thinking that our country&amp;#39; : 3 times
+&amp;#39;the kind of thinking that our&amp;#39; : 3 times
+&amp;#39;of thinking that our country needs&amp;#39; : 3 times
+&amp;#39;you have to be able to&amp;#39; : 3 times
+&amp;#39;- where did you find this&amp;#39; : 2 times
+&amp;#39;youre telling the enemy everything you&amp;#39; : 2 times
+&amp;#39;they have to help us out&amp;#39; : 2 times
+&amp;#39;enemy everything you want to do&amp;#39; : 2 times
+&amp;#39;where did you find this -&amp;#39; : 2 times
+&amp;#39;have to be able to negotiate&amp;#39; : 2 times
+&amp;#39;she spent hundreds of millions of&amp;#39; : 2 times
+&amp;#39;- you called it the gold&amp;#39; : 2 times
+
+
+Donald Trump&amp;#39;s 7-grams
+14 7-grams were repeated
+&amp;#39;because i want to get on to&amp;#39; : 4 times
+&amp;#39;the kind of thinking that our country&amp;#39; : 3 times
+&amp;#39;kind of thinking that our country needs&amp;#39; : 3 times
+&amp;#39;spent hundreds of millions of dollars on&amp;#39; : 2 times
+&amp;#39;telling the enemy everything you want to&amp;#39; : 2 times
+&amp;#39;when i look at whats going on&amp;#39; : 2 times
+&amp;#39;the enemy everything you want to do&amp;#39; : 2 times
+&amp;#39;- you called it the gold standard&amp;#39; : 2 times
+&amp;#39;i want to make america great again&amp;#39; : 2 times
+&amp;#39;she spent hundreds of millions of dollars&amp;#39; : 2 times
+&amp;#39;you have to be able to negotiate&amp;#39; : 2 times
+&amp;#39;should have been doing this for years&amp;#39; : 2 times
+&amp;#39;thats the kind of thinking that our&amp;#39; : 2 times
+&amp;#39;youre telling the enemy everything you want&amp;#39; : 2 times
+
+
+Donald Trump&amp;#39;s 8-grams
+5 8-grams were repeated
+&amp;#39;the kind of thinking that our country needs&amp;#39; : 3 times
+&amp;#39;youre telling the enemy everything you want to&amp;#39; : 2 times
+&amp;#39;telling the enemy everything you want to do&amp;#39; : 2 times
+&amp;#39;she spent hundreds of millions of dollars on&amp;#39; : 2 times
+&amp;#39;thats the kind of thinking that our country&amp;#39; : 2 times
+
+
+Donald Trump&amp;#39;s 9-grams
+2 9-grams were repeated
+&amp;#39;youre telling the enemy everything you want to do&amp;#39; : 2 times
+&amp;#39;thats the kind of thinking that our country needs&amp;#39; : 2 times
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;A few phrases seem notably rehearsed:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;#39;we need law and order&amp;#39; : 4 times
+
+&amp;#39;whether its the iran deal&amp;#39; : 2 times
+
+&amp;#39;when i look at whats going on&amp;#39; : 2 times
+
+&amp;#39;- you called it the gold standard&amp;#39; : 2 times
+
+&amp;#39;i want to make america great again&amp;#39; : 2 times
+
+&amp;#39;you have to be able to negotiate&amp;#39; : 2 times
+
+&amp;#39;should have been doing this for years&amp;#39; : 2 times
+
+&amp;#39;she spent hundreds of millions of dollars on&amp;#39; : 2 times
+
+&amp;#39;youre telling the enemy everything you want to do&amp;#39; : 2 times
+
+&amp;#39;thats the kind of thinking that our country needs&amp;#39; : 2 times
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Mr. Trump had two repeated 9-grams, which are pretty sizable pieces of text. The last four n-grams all sound like they were soundbites that had been chosen specifically for this debate.&lt;/p&gt;
+&lt;p&gt;Finally, I thought it would be worth looking at the total number of n-grams for each speaker.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;trump_repeat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_repeats&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;trump_repeat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;trump_repeat&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trump_tokens&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_tokens&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;trump_repeat&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Number of repeated n-grams for Donald Trump&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;clinton_repeat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clinton_repeats&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;clinton_repeat&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;blue&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Number of repeated n-grams for Hillary Clinton&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="png" src="https://dswalter.github.io/images/output_20_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="https://dswalter.github.io/images/output_20_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;For the images above, I accounted for the difference in total words spoken between the two by scaling Mr. Trump's counts by the same factor his total tokens outnumbered Secretary Clinton's. It is immmediately clear that Mr. Trump had more repeated phrase chunks of every size.&lt;/p&gt;
+&lt;h1&gt;Conclusions?&lt;/h1&gt;
+&lt;p&gt;From this cursory n-gram-based method of analysis, it appears that Mr. Trump had more repeated phrases, even relatively longer phrases, than Secretary Clinton. One explanation could be that Mr. Trump's debate preparation may have emphasized word-for-word talking points more than Secretary Clinton's.&lt;/p&gt;</content></entry><entry><title>Best things of 2015</title><link href="https://dswalter.github.io/best-things-of-2015.html" rel="alternate"></link><published>2016-01-01T00:00:00-05:00</published><updated>2016-01-01T00:00:00-05:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2016-01-01:/best-things-of-2015.html</id><summary type="html">&lt;p&gt;Here are a few things I appreciated in 2015:&lt;/p&gt;
+&lt;h3&gt;arXiv papers:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://arxiv.org/abs/1502.03167"&gt;Batch Normalization&lt;/a&gt;- a simple conceptual idea beautifully executed. We've known for years that neural networks respond better to input data that follow certain distributions. Since the output of each layer is the input to the next, it's a good …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Here are a few things I appreciated in 2015:&lt;/p&gt;
+&lt;h3&gt;arXiv papers:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://arxiv.org/abs/1502.03167"&gt;Batch Normalization&lt;/a&gt;- a simple conceptual idea beautifully executed. We've known for years that neural networks respond better to input data that follow certain distributions. Since the output of each layer is the input to the next, it's a good idea to ensure that each layer is getting "well-behaved" data. The procedure quickly made it into deep learning standard practice. (I'm putting this article in 2015 since that's when I first read it.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://arxiv.org/abs/1512.03385"&gt;Deep Residual Networks&lt;/a&gt;- 2015 looks like the beginning of the "truly deep" deep learning era with this ImageNet-winning paper from Microsoft Research Asia that uses a convolutional neural network with 153(!) layers. (Highway networks are another good way to train very deep networks, but they didn't have the same dramatic success). Most layers in the Deep Residual Network are relatively compact, which makes training more feasible, and an identity mapping is used to keep the signal strong through all the layers. The results are impressive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://arxiv.org/abs/1502.01710"&gt;Text Understanding from Scratch&lt;/a&gt;:
+Using words as the building blocks of NLP for so long may partially be a result of much work being done in English (English is not a morphologically rich language, so a lot of our meaning is communicated using noun phrases and verb phrases rather than declined or inflected nouns and verbs). But a convolutional neural network trained &lt;em&gt;at a character level&lt;/em&gt; proves very effective at solving NLP tasks. It's also fun to see Yann LeCun, who is primarily known for his deep learning work on computer vision, involved in  fun work on text.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://arxiv.org/abs/1512.01563"&gt;State of the Art Control of Atari Games Using Shallow Reinforcement Learning&lt;/a&gt;:
+This paper contains a very careful analysis of the evaluation methods used in the deep Q learning papers and compares those results to the proposed shallow strategy wherever possible. It points out some weaknesses in the previous evaluation methods, but it does so in a way that is refreshingly respectful. The paper also succeeds at its goal of demonstrating that a non-deep-learning approach can be similarly effective at many of the Atari games.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Favorite Data Visualization Method:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;t-Distributed Stochastic Neighbor Embedding.
+&lt;img alt="t-sne" src="https://dswalter.github.io/images/tsne-example.png"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It's a great unsupervised visualization technique and &lt;a href="https://github.com/lvdmaaten/bhtsne"&gt;this implementation from Laurens van der Maaten, the first author of the t-sne paper&lt;/a&gt; doesn't require a precalculated similarity matrix, so it can scale to millions of points.&lt;/p&gt;
+&lt;h3&gt;General Data Science Blog Posts:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Trey Causey's &lt;a href="http://treycausey.com/hiring_data_scientists.html"&gt;post on hiring data scientists&lt;/a&gt; is a nice exploration of a difficult task.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Causey's &lt;a href="http://treycausey.com/software_dev_skills.html"&gt;software development skills for data scientists&lt;/a&gt; is also a worthwhile read. Software engineering skills are so important to productivity in practically and technical field in today's world.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Robert Chang's &lt;a href="https://medium.com/@rchang/my-two-year-journey-as-a-data-scientist-at-twitter-f0c13298aee6#.hat4lz5rs"&gt;post about his experiences at twitter&lt;/a&gt; examines the differences between working as what might think of as a "data scientist" and a "data engineer."&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Yannir Serioussi wrote about how &lt;a href="http://yanirseroussi.com/2015/11/23/the-hardest-parts-of-data-science/"&gt;the most difficult things we do as data scientists/statisticians are epistemological.&lt;/a&gt; Reasoning in the face of uncertainty is so central to the work of data science.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;More Technical Blog Posts:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Peter Norvig's &lt;a href="http://nbviewer.ipython.org/url/norvig.com/ipython/Gesture%20Typing.ipynb"&gt;post on Swype-style keyboards&lt;/a&gt;. The most impressive thing about Norvig's Jupyter notebooks are that he makes you feel like you could have solved the problem if you'd just thought a bit more carefully about it. It's an unusual skill.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://googleresearch.blogspot.com/2015/06/inceptionism-going-deeper-into-neural.html"&gt;Deep Dream&lt;/a&gt; used learned transformations from CNN layers to highlight what the network thought it was looking at. The post was one of the first instances of deep learning as a cultural phenomenon.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In the great data science language wars, Rob Story is &lt;a href="https://medium.com/@oceankidbilly/python-vs-r-vs-cobol-which-is-best-for-data-science-7b2979c6a000#.il4kldvfj"&gt;COBOL's lone champion&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bot detection is an important part of my day job, so I really enjoyed &lt;a href="http://www.erinshellman.com/bot-or-not/"&gt;Erin Shellman's piece on identifying bots on Twitter&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Andrej Karpathy's &lt;a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/"&gt;The Unreasonable Effectiveness of Recurrent Neural Networks&lt;/a&gt;. It's a terrific advertisement for RNNs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The past few months have seen an explosion of generative models for basically everything: Donald Trump speeches, anime characters, paintings, etc. &lt;a href="https://medium.com/@samim/assisted-drawing-7b26c81daf2d#.q9axsv7nm"&gt;Samim's post&lt;/a&gt; has some great videos on how generative models and multi-modal embeddings can impact the artistic process. He's an interesting person to &lt;a href="twitter.com/samim"&gt;follow on twitter, too. &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Books:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://mitpress.mit.edu/books/machine-learning-0"&gt;Machine Learning: A Probabilistic Perspective&lt;/a&gt;. Sidesteps the frequentist vs Bayesian battles by focusing on the applications of probability. This book borrows liberally from other books and educational materials to present the concepts in a structured and cohesive way.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://shop.oreilly.com/product/0636920033400.do"&gt;Data Science from Scratch&lt;/a&gt; by Joel Grus (an increasingly famous author) is a nice walkthrough of a lot of the basic concepts in data science.  It's written in Python (2.7) with very few dependencies, so it feels very immediate. I would especially recommend it to students studying statistics or information, as it ties together the concepts with actual code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>A Look into Machine Learning's First Cheating Scandal</title><link href="https://dswalter.github.io/machine-learnings-first-cheating-scandal.html" rel="alternate"></link><published>2015-12-08T00:00:00-05:00</published><updated>2015-12-08T00:00:00-05:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2015-12-08:/machine-learnings-first-cheating-scandal.html</id><summary type="html">&lt;p&gt;At the end of May, the ImageNet Large Scale Visual Recognition Competition, or &lt;a href="http://www.image-net.org/challenges/LSVRC/"&gt;LSVRC&lt;/a&gt; (currently the word's top annual computer vision contest) announced that a team had violated competition policies by over-submitting results. The &lt;a href="http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015"&gt;follow-up post&lt;/a&gt; named a team from Baidu (the Chinese search giant) as the perpetrators of this …&lt;/p&gt;</summary><content type="html">&lt;p&gt;At the end of May, the ImageNet Large Scale Visual Recognition Competition, or &lt;a href="http://www.image-net.org/challenges/LSVRC/"&gt;LSVRC&lt;/a&gt; (currently the word's top annual computer vision contest) announced that a team had violated competition policies by over-submitting results. The &lt;a href="http://www.image-net.org/challenges/LSVRC/announcement-June-2-2015"&gt;follow-up post&lt;/a&gt; named a team from Baidu (the Chinese search giant) as the perpetrators of this offense and explained that Baidu had been banned from submitting results to the ILSVRC for a twelve-month period. &lt;a href="http://www.technologyreview.com/view/538111/why-and-how-baidu-cheated-an-artificial-intelligence-test/"&gt;MIT Technology review&lt;/a&gt; called it &lt;strong&gt;"Machine learning's first cheating scandal."&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The search giant's response was swift. It's not really possible to remove a paper from arXiv.org, so the offending team did the next best thing: they replaced &lt;a href="http://arxiv.org/abs/1501.02876v4.pdf"&gt;this functional draft on arXiv&lt;/a&gt; with &lt;a href="http://arxiv.org/abs/1501.02876v5"&gt;this nonexistent one&lt;/a&gt;. And the primary researcher for the paper, Dr. Ren Wu, &lt;a href="http://bits.blogs.nytimes.com/2015/06/11/baidu-fires-researcher-tied-to-contest-disqualification/"&gt;was fired from his position&lt;/a&gt; as "distinguished scientist at Baidu's Institute of Deep Learning."&lt;/p&gt;
+&lt;p&gt;To the non-practitioner, it might seem a bit extreme. Why would submitting answers to a contest too often be an offense worthy of termination for a promising academic with a &lt;a href="https://scholar.google.com/citations?user=0VxDjbcAAAAJ&amp;amp;hl=en"&gt;good publication record&lt;/a&gt;? And why should an entire corporation be banned from an international computer vision competition over such a seemingly small incident?&lt;/p&gt;
+&lt;p&gt;In order to address that question, we're going to need to talk about some important concepts in machine learning. I talked about overfitting, regularization, and hyperparameter optimization in &lt;a href="http://dswalter.github.io/overfitting-regularization-hyperparameters/"&gt;this previous post&lt;/a&gt;. Next, let's talk about benchmarking.&lt;/p&gt;
+&lt;h4&gt;Benchmarking and Breakthroughs&lt;/h4&gt;
+&lt;p&gt;Machine learning (ML) is a very performance focused discipline: academics in ML do a lot of theoretical work, but the algorithms themselves are generally compared based on their performance on tasks that have specified training and testing data. The core idea is that when different algorithms are tested on the same data, we can gain a more objective sense of their relative performance. There are some major advantages to this, namely the objectivity of well-designed experimentation and the fact that strong performance will help even obscure researchers' ideas rise to the top. We will talk about some of the potential problems with the focus on performance in a few paragraphs.&lt;/p&gt;
+&lt;p&gt;As an example of this benchmarking tendency, in 1998 Yann LeCun (now head of Facebook's FAIR and one of most influential researchers in computer vision) used the &lt;a href="http://yann.lecun.com/exdb/mnist/"&gt;MNIST dataset&lt;/a&gt; to evaluate most of the computer vision algorithms people were studying at the time. Partially as a result of that effort, the MNIST dataset became one of the most popular datasets to evaluate machine learning algorithms on, and &lt;a href="https://scholar.google.com/citations?view_op=view_citation&amp;amp;hl=en&amp;amp;user=WLN3QrAAAAAJ&amp;amp;citation_for_view=WLN3QrAAAAAJ:u5HHmVD_uO8C"&gt;that particular article has had over 4200 citations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Various other computer vision datasets have emerged through the years, such as &lt;a href="http://www.vision.caltech.edu/Image_Datasets/Caltech101/"&gt;Caltech 101&lt;/a&gt;, &lt;a href="http://authors.library.caltech.edu/7694/"&gt;Caltech 256&lt;/a&gt;, and the PASCAL VOC (Visual Object Classes), but the release of &lt;a href="http://www.image-net.org/papers/imagenet_cvpr09.pdf"&gt;ImageNet&lt;/a&gt; by Deng et al. was the great leap forward. There's so much to say about ImageNet (almost all of it breathlessly positive), but it's enough to say that ImageNet dwarfs previous computer vision datasets in both the number of classes and images per class.&lt;/p&gt;
+&lt;p&gt;Because of ImageNet's scale, the ILSVRC is a much more challenging competition than ones that came before it. With 1000 classes, the algorithms that succeed need to have high representation capacity, since they need to be able to discriminate between every class, which means there are \(n(n-1)/2=1000*(999)/2=499500\) decision boundaries between classes. In problems needing high representation capacity like this, more parameters are generally helpful; more parameters give an algorithm more room to hold what it has learned. Since multi-layer neural networks (shallow or deep) are universal function approximators that can accommodate unlimited numbers of parameters based on how you structure them, it makes sense that neural networks of some kind ("deep learning") would be an effective approach in computer vision.&lt;/p&gt;
+&lt;p&gt;One difficulty with deep learning is that deep neural networks with millions of neurons take a long time to train. This was helped by a significant breakthrough in 2012 by Alex Krizhevsky, a PhD student at the time at the University of Toronto. Krizhevsky famously used the parallel computational capabilities of graphics cards (GPU's) on a computer in his dorm room to drastically reduce training time for his convolutional neural network models. This meant he was able to train much larger models (with more layers and parameters and therefore higher representation capacity) than other researchers at the time, because he was able to obtain results in days rather than weeks.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf"&gt;That paper&lt;/a&gt; had a 10.85 p.p. lower absolute error rate than the next best result on ILSVRC 2012 (winning with an error rate of 15.3% compared to the second best's 26.2%). It was rightly hailed as a major breakthrough, and GPU training has become the standard method for training deep neural nets. I mention this story because it's a quintessential example of a major breakthrough in a field: a new technique or idea that is broadly applicable and improves the entire field.&lt;/p&gt;
+&lt;h4&gt;Conclusions&lt;/h4&gt;
+&lt;p&gt;The ImageNet ILSVRC has a rule in place that a machine learning system can only be submitted for evaluation on the test set twice a week. Since every submission needs to be evaluated on the same test set, this rule functions as a regularization parameter; limited access to submission makes for limited exposure for the competition's most guarded secret, the scoring test set.&lt;/p&gt;
+&lt;p&gt;This rule also restricts the amount of hyperparameter optimization, or in this case hyperparameter overfitting, that can be performed on the scoring test set. In machine learning, over time, the models tend toward better accuracy, because the best ideas tend to be absorbed into the best practices of the field (there are almost no papers focusing on 3 or 4-layer CNN's these days, for example). And in the days of widespread publication of pre-prints on &lt;a href="arxiv.org"&gt;the arXiv&lt;/a&gt;, those new ideas can spread through the community in a matter of days or weeks. Limiting submissions to twice per week means that hyperparameter optimization should only be able to have a limited effect relative to that overall trend toward forward progress.  I think this is the most important reason for the restriction, and this is why the Baidu scandal mattered so much.&lt;/p&gt;
+&lt;p&gt;The Baidu team's oversubmissions tilted the balance of forward progress on the ILSVRC from algorithmic advances to hyperparameter optimization.&lt;/p&gt;
+&lt;p&gt;Here is the response from Dr. Ren Wu after the initial scandal broke:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="http://www.enterprisetech.com/2015/06/12/baidu-fires-deep-images-ren-wu/"&gt;“The key sentence here is, ‘Please note that you cannot make more than 2 submissions per week.’ It is our understanding that this is to say that one individual can at most upload twice per week. Otherwise, if the limit was set for a team, the proper text should be ‘your team’ instead,” Wu wrote. “Our team has submitted about 200 times total in its lifespan. Our paper have five authors, and so based [on] the rule above, we should be allowed to submit around 260 times. And so, our 200 submissions were well within the 260 limits set by the rule."&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The "two submissions per person" argument is fairly weak: if true, it would incentivize gathering large groups of collaborators merely to get more frequent result submissions. That would be unfair to researchers at smaller universities or companies with fewer connections in the field. It would be patently unfair. A more problematic sticking point is that it appears no other team took this view of the submission policy. The graph below shows that the Baidu team submitted results more times than all other teams combined. (Members of the Baidu team had to create multiple logins in order to circumvent the "two submissions per week" rule)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Sadly, this image has been deleted from the internet!" src="http://www.image-net.org/challenges/LSVRC/figs/submissions_server.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;This might conceivably be acceptable if the team were trying out a variety of algorithms and hyperparameters and seeing what sticks. As an outsider, I don't have access to those records, so I can't make any conclusive observations. But the graph below shows their results over the period of time they were submitting, and it is quite informative.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="As has this one. " src="http://www.image-net.org/challenges/LSVRC/figs/overview.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;There is an overall downward trend over that time, during which several other labs made major breakthroughs and received press coverage for achieving state-of-the-art results on the ILSVRC. Many of the results for the Baidu team are scattered in performance, as though the team was trying many things to see what worked and some of those ways were less effective. That's normal and probably healthy.&lt;/p&gt;
+&lt;p&gt;But if you look at the bottom right, there are three areas of more clustered submissions. I hypothesize that these are three periods of hyperparameter optimization. The cluster I've circled in red appears to have been relatively ineffective. But the two periods I've highlighted in blue were successful; the blue ellipse on the bottom right culminates in their 'winning' submission. In contrast to the 'great leap forward' established in the Krizhevsky et al. paper, the Baidu team's results show that hyperparameter optimization can still extract a little bit of performance out of algorithms in high-profile competitions.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A slightly modified version of a file that otherwise doesn't exist" src="https://dswalter.github.io/images/lsvrc-3.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;This was intentional hyperparameter overfitting. Someone as experienced as Dr. Wu was would not have made such a mistake accidentally.  It was bad machine learning practice; this looks like a deliberate attempt to utilize an unfair competitive advantage.  When people think of "cheating" in a research context, they immediately think of fabricated results, but this violation also deserves that label.&lt;/p&gt;
+&lt;h4&gt;Repercussions&lt;/h4&gt;
+&lt;p&gt;Setting aside the scandal, the fact that the Baidu team achieved 'state-of-the-art' results on the ILSVRC by running hyperparameter optimization experiments likely means that the dataset is nearing the end of its run as &lt;em&gt;the&lt;/em&gt; benchmark in computer vision. For the first time since its inception, the major ILSVRC classification challenge has a bounding-box component rather than pure classification, and this scandal probably contributed to that. The ImageNet classification task will still live on as part of the battery of proving grounds an algorithm is evaluated on, much like how MNIST still lives on today, but I look forward to seeing what the next gold-standard computer vision dataset will be. Perhaps something related to video processing?&lt;/p&gt;
+&lt;p&gt;And maybe we're all a bit complicit in the problems raised here. The field uses best-case test results to show how well an algorithm works. But using the maximum score achieved by a particular algorithm is an inherently outlier-dependent measure. Is the absolute best performance achieved in one particular experiment really the best measure of the capabilities of an algorithm? Doesn't this formulation inherently reward hyperparameter optimization? It would be very valuable to find ways to mitigate this outlier dependency.&lt;/p&gt;
+&lt;p&gt;And, finally, to make sure we aren't making lesser versions of the same mistake this Baidu team made, we should always use the train-validation-test framework (or even better, use crossvalidation for the train-validation splits). If you're comparing two algorithms, you should only evaluate each model on the test set once. Do all your hyperparameter optimization on the train-validation set, leaving the scoring test set as un-learned-from as possible. Hyperparameter optimization on the scoring test set causes results ranging from somewhat suspect to actually fraudulent.&lt;/p&gt;</content></entry><entry><title>Overfitting, Regularization, and Hyperparameters</title><link href="https://dswalter.github.io/overfitting-regularization-hyperparameters.html" rel="alternate"></link><published>2015-11-29T00:00:00-05:00</published><updated>2015-11-29T00:00:00-05:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2015-11-29:/overfitting-regularization-hyperparameters.html</id><summary type="html">&lt;p&gt;(This lays the ground work for the next post, which was getting too long to be effective.)&lt;/p&gt;
+&lt;h3&gt;Overfitting&lt;/h3&gt;
+&lt;p&gt;One of the goals of machine learning is generalizability. A model that only works on the exact data it was trained on is effectively useless. Let's say you're tasked with creating a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(This lays the ground work for the next post, which was getting too long to be effective.)&lt;/p&gt;
+&lt;h3&gt;Overfitting&lt;/h3&gt;
+&lt;p&gt;One of the goals of machine learning is generalizability. A model that only works on the exact data it was trained on is effectively useless. Let's say you're tasked with creating a bird-recognition system. If you train a model to recognize pictures of birds, and it gets 100% accuracy on the 130 pictures of 10 classes of birds you showed it, is it a good model?&lt;/p&gt;
+&lt;p&gt;It might be, but it depends on how the model performs on images it was not trained on. If performance measures on both the training set and the test set are good, then the model is performing well. But if performance on the test set is bad, then that model is not particularly useful. Through some mechanism, your model has 'memorized' the 1300 pictures you showed it. You already had those pictures, so you don't gain anything by using the model.&lt;/p&gt;
+&lt;p&gt;In an ideal world, your algorithm would be able to to discriminate between different types of birds, even if the pictures are very different from the examples it has seen before. To do that, it needs to identify features of those birds that are constant for each bird rather than features of a particular picture or photography session. There are a number of ways an algorithm might try to characterize a Blue-Faced Parrot Finch from this picture below, for eample. One good feature might be to recognize that the Blue-Faced Parrot Finch has an area on its face that is blue.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Blue-faced_Parrotfinch.jpg/1024px-Blue-faced_Parrotfinch.jpg"&gt;
+&lt;a href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Blue-faced_Parrotfinch.jpg/1024px-Blue-faced_Parrotfinch.jpg"&gt;credit for this image: Wikipedia user Nrg800&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We might want to check another picture to see if this feature is consistently present.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://www.cliftonfinchaviaries.org/fsa/blue/bf9.JPG"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cliftonfinchaviaries.org"&gt;credit for this image:  www.cliftonfinchaviaries.org&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;So far so good. This picture of a Blue-Faced Parrot Finch also has a blue face; it seems like a good feature to use to characterize this bird. But what if the algorithm identified a different feature? In the first picture, the bird stood on a forked branch. If 'forked branch' was one of the features it used to identify this bird, it would not have generalized to all pictures of this bird. Or, in both of these pictures, the bird is facing to the right; the algorithm might decide that facing to the right is a defining characteristic of this finch. In machine learning, we call these cases &lt;em&gt;overfitting&lt;/em&gt;: an algorithm learns non-generalizable characteristics only present in the training data.&lt;/p&gt;
+&lt;p&gt;Overfitting is one of the hidden specters of the field. As the complexity of your model increases, the potential for overfitting increases as well. In this illustration below, the blue line represents the error rate on the training data, and the red line represents the error rate on the testing data.
+&lt;img alt="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png" src="http://www.richardcorbridge.com/wp-content/uploads/2013/09/Overfitting.png"&gt;
+&lt;a href="www.richardcorbridge.com"&gt;h/t to Richard Corbridge for this clean overfitting graphic&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;As the representation capacity of your model increases, it is better able to capture variation in the training data, so the blue line monotonically decreases. The red line (testing data error rate) follows that trajectory initially: the model is learning things that are generalizable. But at some point, the model starts to learn features specific to the training data (like our forked branch above), and performance on the testing data begins to suffer: the test data isn't exactly like the training data, so the 'memorized' features hurt generalizability.&lt;/p&gt;
+&lt;h3&gt;Regularization&lt;/h3&gt;
+&lt;p&gt;But complex problems require complex algorithms that can make very subtle distinctions. Right now, almost all the fun tasks (computer vision, question answering, speech recognition, etc.) fall under that umbrella. If we must use a complex algorithm, how can we avoid overfitting?&lt;/p&gt;
+&lt;p&gt;The simplest way to avoid overfitting is to give the algorithms too much data to overfit on. By overwhelming the algorithm with data, you force it to decide what is important.  An algorithm that only memorizes the most recent examples it has seen will be exposed by poor performance on the test set. An algorithm that is making wise choices about what is important for it to learn and what isn't, will improve when given tons of data. For most supervised learning problems, however, labeled data is often prohibitively expensive, so this solution isn't always feasible.&lt;/p&gt;
+&lt;p&gt;Another way to do that is to use a technique called &lt;a href="https://en.wikipedia.org/wiki/Regularization_%28mathematics%29"&gt;&lt;em&gt;regularization&lt;/em&gt;&lt;/a&gt; to keep overfitting at bay. Without going into details, this technique introduces a complexity penalty that "punishes" the machine learning algorithm for letting the parameters get too large (which usually means overfitting). That is to say, it incorporates a mechanism in the algorithm itself which restricts parameters of the algorithm to make it learn in a way we think is less likely to overfit. Regularization is wildly popular, especially in situations where the data is high-dimensional (lots of different variables).&lt;/p&gt;
+&lt;h3&gt;Hyperparameter Optimization&lt;/h3&gt;
+&lt;p&gt;When introducing a regularization method, you have to decide how much weight you want to give to that regularization method. You can pick larger or smaller values for your complexity penalty depending on how much you think overfitting is going to be a problem for your current use case. This exposes one of the open secrets of machine learning: the goal is to get the computer to learn how to make decisions automatically, but there are values (like the size of the complexity penalty) impacting performance that must be chosen.&lt;/p&gt;
+&lt;p&gt;Every machine learning algorithm has these values, called &lt;em&gt;hyperparameters&lt;/em&gt;. These hyperparameters are values or functions that govern the way the algorithm behaves. Think of them like the dials and switches on a vintage amplifier.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fewer hyperparameters than the average deep neural network" src="https://bb3blog.files.wordpress.com/2012/06/san-505-copy.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;There are different combinations of amp settings that are better suited to produce different types of sounds; similarly, different configurations of hyperparameters work better for different tasks. Hyperparameters include things like the number of layers in a &lt;a href="http://ufldl.stanford.edu/tutorial/supervised/ConvolutionalNeuralNetwork/"&gt;convolutional neural network&lt;/a&gt; or the number of neighbors used in a &lt;a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm"&gt;nearest neighbor classifier&lt;/a&gt;, and they can have a massive impact on how the algorithm performs. Once, I used latent dirichlet allocation &lt;a href="http://ai.stanford.edu/~ang/papers/nips01-lda.pdf"&gt;(a topic modeling algorithm)&lt;/a&gt; as part of a classification task, and I found that by changing the \(\alpha\) and \(\beta\) parameters, the prediction accuracy on my test set could vary from 0.04 to 0.41. That's an order of magnitude of difference based on fiddling with two dials.&lt;/p&gt;
+&lt;p&gt;Finding the best combination of hyperparameters is called &lt;em&gt;hyperparameter optimization&lt;/em&gt;; it is almost impossible to beat state of the art methods without performing hyperparameter optimization. But there are some subtle dangers. Using one algorithm "out-of-the-box" and laboriously tuning hyperparameters for another example leads to an unfair comparison: in general, hyperparameter optimization squeezes out better performance. A better algorithm will in general outperform a worse algorithm, but sometimes, you can find the perfect combination of hyperparameters, which will allow the best-case version of the lesser algorithm to beat an average version of the better algorithm. Choosing the best hyperparameters is like playing with the dials of one amp until you find the perfect sound; It's not really fair to compare the sound of a perfectly-adjusted amplifier with one you use default settings on.&lt;/p&gt;
+&lt;p&gt;And most vexingly, hyperparameter optimization can lead to overfitting: if a researcher runs 400 experiments on the same train-test splits, then performance on the test data is being incorporated into the training data by choice of hyperparameters. This is true even if regularization is being used! With each time an algorithm is evaluated on the test data, that test data becomes less useful as an "unsullied" evaluator of performance. By the 400th or 4000th evaluation, the test data holds very little mystery and is no longer functioning as a test dataset; it has become a secondary training set.&lt;/p&gt;
+&lt;p&gt;There are some strategies that attempt to mitigate this problem: one is to use a train-validation-test split, where the hyperparameters are tuned based on performance on the validation set. This leads to potential concerns about overfitting to the validation set, but the test set is left more "intact" is cross-validation, where the data are split into \(n\) train-test sets. But this mostly just shares the overexposure problem with a larger test dataset (since everything is eventually tested rather than a small subset). But that sharing only postpones the inevitable. The problem still remains that exposure means evaluation is performed on a decreasingly 'unsullied' test set.&lt;/p&gt;
+&lt;h3&gt;Wrap-up&lt;/h3&gt;
+&lt;p&gt;In the attempt to move toward generalizable machine learning, we try to find algorithms that perform well on training data and testing data, using regularization to pursue that goal wherever possible. And, in general, if two algorithms achieve the same performance on a task, the one with less hyperparameter optimization is generally preferable.&lt;/p&gt;
+&lt;p&gt;Machine learning competitions that reward only the single highest-performing team provide a bit of a mixed bag, then. It's typically impossible to win those competitions without a great algorithm and some hyperparameter optimization. But it becomes difficult to separate the gains that come from better algorithms and the gains that come from more judicious hyperparameter choices. I'll get into this a bit more with my next post.&lt;/p&gt;</content></entry><entry><title>Machine Learning is Magic</title><link href="https://dswalter.github.io/machine-learning-is-magic.html" rel="alternate"></link><published>2015-10-02T00:00:00-04:00</published><updated>2015-10-02T00:00:00-04:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2015-10-02:/machine-learning-is-magic.html</id><summary type="html">&lt;p&gt;Perhaps you have heard of the sophisticated, elegant &lt;a href="https://github.com/panicsteve/cloud-to-butt"&gt;Cloud-to-Butt plugin&lt;/a&gt;, which searches through the text on a website for the phrase "The Cloud" and replaces it with "My Butt". &lt;a href="http://gizmodo.com/the-best-of-cloud-to-butt-the-only-extension-youll-eve-1685863609"&gt;This compilation&lt;/a&gt; shows some of the most urbane results.&lt;/p&gt;
+&lt;p&gt;It struck me that if you replaced "Machine Learning Algorithm" with "Magic …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Perhaps you have heard of the sophisticated, elegant &lt;a href="https://github.com/panicsteve/cloud-to-butt"&gt;Cloud-to-Butt plugin&lt;/a&gt;, which searches through the text on a website for the phrase "The Cloud" and replaces it with "My Butt". &lt;a href="http://gizmodo.com/the-best-of-cloud-to-butt-the-only-extension-youll-eve-1685863609"&gt;This compilation&lt;/a&gt; shows some of the most urbane results.&lt;/p&gt;
+&lt;p&gt;It struck me that if you replaced "Machine Learning Algorithm" with "Magic Spell" in many contexts, the content would feel very similar.&lt;/p&gt;
+&lt;p&gt;So I put together a Chrome plugin called "Machine Learning is Magic" that you can  &lt;a href="https://chrome.google.com/webstore/detail/machine-learning-is-magic/miejfpgjbmgjkhdflhkdnnkhmpknibmc?hl=en"&gt;download here.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://dswalter.github.io/images/machine-learning-screenshot.PNG"&gt;&lt;/p&gt;
+&lt;p&gt;becomes&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://dswalter.github.io/images/magic-screenshot.PNG"&gt;&lt;/p&gt;
+&lt;p&gt;And you get fun intro sites like this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://dswalter.github.io/images/a-tour-of-magic-spells.png"&gt;&lt;/p&gt;
+&lt;p&gt;I ended up going a bit overboard and doing a few more replacements: "data" becomes "Raw Magic Material", "probability" becomes "The Fates", etc. I had fun with it.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dswalter/machine-learning-is-magic"&gt;The code&lt;/a&gt; is a bit janky, so pull requests are welcome. And if you think I should make the simpler version that only replaces "machine learning algorithm" with "magic spells", leave a comment. Enjoy!&lt;/p&gt;</content></entry><entry><title>Talking Talking Machines</title><link href="https://dswalter.github.io/talking-talking-machines.html" rel="alternate"></link><published>2015-09-17T00:00:00-04:00</published><updated>2015-09-17T00:00:00-04:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2015-09-17:/talking-talking-machines.html</id><summary type="html">&lt;p&gt;&lt;a href="http://www.thetalkingmachines.com/"&gt;Talking Machines&lt;/a&gt; is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn't really listen until this summer, which was my loss. Now that I'm catching up on it, I think it's …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="http://www.thetalkingmachines.com/"&gt;Talking Machines&lt;/a&gt; is currently THE machine learning podcast. Last fall when it started out, I was intrigued that someone was starting a podcast focusing specifically on machine learning. But I didn't really listen until this summer, which was my loss. Now that I'm catching up on it, I think it's terrific.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="talking machines logo" src="http://static1.squarespace.com/static/54a56ccbe4b0ab38fed9fc81/t/54a56d1fe4b0c309d01404ce/1442025843814/?format=1500w"&gt;&lt;/p&gt;
+&lt;p&gt;As an completely biased person, I think everyone should listen to it; but I do unabashedly love the subject material. The initial segment of each episode is usually a clear introduction to a common ML concepts, the likes of which you might encounter in an introductory ML class. Then the interviews touch on a wide range of the interviewee's research focus, work, and thoughts on the field. I'm not sure if it's interesting and fun as a cold-start introduction to the material, but as someone who works in the field, I'm firmly in their target audience. At times, it's almost a water-cooler discussion for the ML set.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.seas.harvard.edu/directory/rpa"&gt;Dr. Ryan Adams&lt;/a&gt;, a Cambridge-trained ML researcher, has a good combination of breadth and depth of knowledge in the field, and his insights guide the discussion to some interesting places.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.katherinelgorman.com/"&gt;Katherine Gorman&lt;/a&gt; brings an air of professionalism to the podcast. I imagine it's primarily her editing that keeps the final product smooth to listen to.&lt;/p&gt;
+&lt;p&gt;And the guests have been fantastic. I knew they were going to have great interview subjects when the first teaser was the Deep Learning Conspiracy (Hinton, LeCun, and Bengio). Ilya Sutskever's interview was insightful, as was Hanna Wallach's where she told the history of the &lt;a href="http://wimlworkshop.dreamhosters.com/"&gt;Women In Machine Learning (WIML)&lt;/a&gt; conference.  I'm not friends with Geoff Hinton, but Talking Machines gives me a glimpse into his more nuanced opinions on what's going on ML. Adams has the cachet to get prominent researchers to join the podcast; I imagine it helps that there are so few venues for these researchers to talk about their to listeners who actually care.&lt;/p&gt;
+&lt;p&gt;They've launched &lt;a href="https://www.kickstarter.com/projects/487384857/tote-bag-productions-talking-machines"&gt;a kickstarter&lt;/a&gt; to fund their second season. I follow a pretty simple rule for Kickstarter-type-things: do I want to live in a world where this product exists?&lt;/p&gt;
+&lt;p&gt;I do, so I'm backing the second season.&lt;/p&gt;</content></entry><entry><title>Why Blog?</title><link href="https://dswalter.github.io/why-blog.html" rel="alternate"></link><published>2015-08-18T00:00:00-04:00</published><updated>2015-08-18T00:00:00-04:00</updated><author><name>Daniel Walter</name></author><id>tag:dswalter.github.io,2015-08-18:/why-blog.html</id><summary type="html">&lt;p&gt;A question anyone starting a blog in 2015 should answer:  &lt;/p&gt;
+&lt;h5&gt;Why?&lt;/h5&gt;
+&lt;p&gt;Like a lot of people, I think things through more thoroughly and with more discipline when writing them down. If I just consider a topic, I can tend to get into habits of thought. So the act of writing …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A question anyone starting a blog in 2015 should answer:  &lt;/p&gt;
+&lt;h5&gt;Why?&lt;/h5&gt;
+&lt;p&gt;Like a lot of people, I think things through more thoroughly and with more discipline when writing them down. If I just consider a topic, I can tend to get into habits of thought. So the act of writing things out tends to give me clearer opinions on a topic.&lt;/p&gt;
+&lt;h5&gt;Why not not keep a journal, then?&lt;/h5&gt;
+&lt;p&gt;That's a good idea, and I do, sometimes. But I don't challenge myself nearly as well as other people do. Having a blog where I write out my opinions puts me in a place where other people can bring their perspectives to bear. And I have a few ideas I'd like to put out there.&lt;/p&gt;</content></entry></feed>
